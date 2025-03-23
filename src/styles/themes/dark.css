@@ -1,0 +1,144 @@
+/**
+ * Dark theme for FilterTable
+ */
+
+.filter-table.theme-dark {
+  color: #e0e0e0;
+  background-color: #2d2d2d;
+  border-color: #444;
+}
+
+/* Header styles */
+.filter-table.theme-dark thead {
+  background-color: #1a1a1a;
+}
+
+.filter-table.theme-dark th {
+  border-bottom: 2px solid #444;
+  color: #fff;
+}
+
+.filter-table.theme-dark th.sortable:hover {
+  background-color: #333;
+}
+
+.filter-table.theme-dark th.sortable::after {
+  color: #777;
+}
+
+.filter-table.theme-dark th[data-sort-direction="asc"]::after,
+.filter-table.theme-dark th[data-sort-direction="desc"]::after {
+  color: #fff;
+}
+
+/* Filter row styles */
+.filter-table.theme-dark tr.filter-row td {
+  border-bottom: 1px solid #444;
+  background-color: #222;
+}
+
+/* Filter icon styles */
+.filter-table.theme-dark .filter-icon {
+  color: #aaa;
+}
+
+.filter-table.theme-dark .filter-icon:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Filter dropdown styles */
+.filter-table.theme-dark .filter-dropdown {
+  background-color: #333;
+  border: 1px solid #555;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Filter options styles */
+.filter-table.theme-dark .filter-options {
+  border-top: 1px solid #444;
+}
+
+.filter-table.theme-dark .filter-option:hover {
+  background-color: #444;
+}
+
+/* Filter input styles */
+.filter-table.theme-dark .filter-input {
+  background-color: #333;
+  border: 1px solid #555;
+  color: #e0e0e0;
+}
+
+.filter-table.theme-dark .filter-input:focus {
+  border-color: #4d90fe;
+  box-shadow: 0 0 0 2px rgba(77, 144, 254, 0.3);
+}
+
+.filter-table.theme-dark .filter-select {
+  background-color: #333;
+  color: #e0e0e0;
+}
+
+/* Body styles */
+.filter-table.theme-dark tbody tr {
+  border-bottom: 1px solid #444;
+}
+
+.filter-table.theme-dark tbody tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+
+.filter-table.theme-dark tbody tr:hover {
+  background-color: #3a3a3a;
+}
+
+.filter-table.theme-dark td {
+  color: #e0e0e0;
+}
+
+/* Empty row styles */
+.filter-table.theme-dark tr.empty-row td {
+  color: #888;
+}
+
+/* Advanced filter UI */
+.filter-table.theme-dark .filter-table-advanced-filter {
+  border: 1px solid #444;
+  background-color: #2a2a2a;
+}
+
+.filter-table.theme-dark .filter-table-advanced-filter-button {
+  border: 1px solid #555;
+  background-color: #333;
+  color: #e0e0e0;
+}
+
+.filter-table.theme-dark .filter-table-advanced-filter-button:hover {
+  background-color: #444;
+}
+
+.filter-table.theme-dark .filter-table-advanced-filter-button.primary {
+  background-color: #4d90fe;
+  color: #fff;
+  border-color: #3079ed;
+}
+
+.filter-table.theme-dark .filter-table-advanced-filter-button.primary:hover {
+  background-color: #357ae8;
+}
+
+.filter-table.theme-dark .filter-table-advanced-filter-group {
+  border: 1px solid #444;
+  background-color: #333;
+}
+
+/* Filter visualization */
+.filter-table.theme-dark .filter-table-filter-tag {
+  background-color: #444;
+  color: #e0e0e0;
+}
+
+.filter-table.theme-dark .filter-table-filter-tag-remove:hover {
+  color: #ff6b6b;
+}

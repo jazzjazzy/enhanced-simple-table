@@ -1,0 +1,32 @@
+{
+  "name": "filter-table",
+  "version": "0.1.0",
+  "description": "A highly customizable table library with advanced filtering capabilities",
+  "main": "dist/filter-table.js",
+  "module": "dist/filter-table.esm.js",
+  "browser": "dist/filter-table.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Build script would go here\""
+  },
+  "keywords": [
+    "table",
+    "filter",
+    "sort",
+    "pagination",
+    "data-table",
+    "javascript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jazzjazzy/simple-filter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jazzjazzy/simple-filter/issues"
+  },
+  "homepage": "https://github.com/jazzjazzy/simple-filter#readme",
+  "devDependencies": {},
+  "dependencies": {}
+}

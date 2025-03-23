@@ -1,0 +1,508 @@
+/**
+ * Base styles for FilterTable
+ */
+
+.filter-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Header styles */
+.filter-table thead {
+  background-color: #f5f5f5;
+}
+
+.filter-table th {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #ddd;
+  position: relative;
+  cursor: default;
+}
+
+.filter-table th.sortable {
+  cursor: pointer;
+  padding-right: 25px;
+}
+
+.filter-table th.sortable:hover {
+  background-color: #eee;
+}
+
+.filter-table th.sortable::after {
+  content: "↕";
+  display: inline-block;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8em;
+  color: #999;
+}
+
+.filter-table th[data-sort-direction="asc"]::after {
+  content: "↑";
+  color: #333;
+}
+
+.filter-table th[data-sort-direction="desc"]::after {
+  content: "↓";
+  color: #333;
+}
+
+/* Filter row styles */
+.filter-table tr.filter-row td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+/* Filter container styles */
+.filter-table .filter-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Filter icon styles */
+.filter-table .filter-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  color: #666;
+  border-radius: 4px;
+}
+
+.filter-table .filter-icon:hover {
+  background-color: #eee;
+  color: #333;
+}
+
+/* Filter dropdown styles */
+.filter-table .filter-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 200px;
+  padding: 8px;
+  margin-top: 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-table .filter-dropdown.visible {
+  display: block;
+}
+
+/* Filter options styles */
+.filter-table .filter-options {
+  margin-top: 8px;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+}
+
+.filter-table .filter-option {
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.filter-table .filter-option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Filter input styles */
+.filter-table .filter-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.filter-table .filter-input:focus {
+  outline: none;
+  border-color: #4d90fe;
+  box-shadow: 0 0 0 2px rgba(77, 144, 254, 0.2);
+}
+
+.filter-table .filter-number-container {
+  display: flex;
+  gap: 4px;
+}
+
+.filter-table .filter-number {
+  width: 50%;
+}
+
+.filter-table .filter-date {
+  width: 100%;
+}
+
+.filter-table .filter-select {
+  width: 100%;
+  height: 30px;
+}
+
+/* Body styles */
+.filter-table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.filter-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.filter-table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-table td {
+  padding: 10px 8px;
+  vertical-align: middle;
+}
+
+/* Empty row styles */
+.filter-table tr.empty-row td {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-style: italic;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .filter-table {
+    font-size: 13px;
+  }
+  
+  .filter-table th,
+  .filter-table td {
+    padding: 8px 4px;
+  }
+  
+  .filter-table .filter-input {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+}
+
+/* Advanced filter UI */
+.filter-table-advanced-filter {
+  margin-bottom: 1rem;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.filter-table-advanced-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.filter-table-advanced-filter-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.filter-table-advanced-filter-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-table-advanced-filter-button {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filter-table-advanced-filter-button:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-table-advanced-filter-button.primary {
+  background-color: #4d90fe;
+  color: #fff;
+  border-color: #3079ed;
+}
+
+.filter-table-advanced-filter-button.primary:hover {
+  background-color: #357ae8;
+}
+
+.filter-table-advanced-filter-group {
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.filter-table-advanced-filter-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.filter-table-advanced-filter-group-operator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-table-advanced-filter-group-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.filter-table-advanced-filter-condition {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.filter-table-advanced-filter-field,
+.filter-table-advanced-filter-operator,
+.filter-table-advanced-filter-value {
+  flex: 1;
+}
+
+.filter-table-advanced-filter-remove {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #888;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-table-advanced-filter-remove:hover {
+  color: #d9534f;
+}
+
+/* Filter visualization */
+.filter-table-filter-visualization {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-table-filter-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+.filter-table-filter-tag-label {
+  margin-right: 4px;
+  font-weight: 600;
+}
+
+.filter-table-filter-tag-value {
+  margin-right: 4px;
+}
+
+.filter-table-filter-tag-remove {
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #888;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-table-filter-tag-remove:hover {
+  color: #d9534f;
+}
+
+/* Saved filters dropdown */
+.filter-table-saved-filters {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-table-saved-filters-button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.filter-table-saved-filters-button:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-table-saved-filters-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 160px;
+  padding: 8px 0;
+  margin-top: 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.filter-table-saved-filters.open .filter-table-saved-filters-dropdown {
+  display: block;
+}
+
+.filter-table-saved-filters-item {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.filter-table-saved-filters-item:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-table-saved-filters-divider {
+  height: 1px;
+  margin: 4px 0;
+  background-color: #ddd;
+}
+
+/* Pagination */
+.filter-table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 13px;
+}
+
+.filter-table-pagination-info {
+  color: #666;
+}
+
+.filter-table-pagination-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.filter-table-pagination-button {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.filter-table-pagination-button:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-table-pagination-button.active {
+  background-color: #4d90fe;
+  color: #fff;
+  border-color: #3079ed;
+}
+
+.filter-table-pagination-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading state */
+.filter-table-loading {
+  position: relative;
+  min-height: 100px;
+}
+
+.filter-table-loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.filter-table-loading::before {
+  content: "Loading...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Utility classes */
+.filter-table-hidden {
+  display: none !important;
+}
+
+.filter-table-text-center {
+  text-align: center !important;
+}
+
+.filter-table-text-right {
+  text-align: right !important;
+}
+
+.filter-table-text-left {
+  text-align: left !important;
+}
+
+.filter-table-nowrap {
+  white-space: nowrap !important;
+}
+
+.filter-table-truncate {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

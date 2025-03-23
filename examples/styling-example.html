@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FilterTable Styling Example</title>
+  <link rel="stylesheet" href="../src/styles/base.css">
+  
+  <!-- Include theme stylesheets directly -->
+  <style id="dark-theme">
+    /* Dark theme styles */
+    .filter-table.theme-dark {
+      color: #e0e0e0;
+      background-color: #2d2d2d;
+      border-color: #444;
+    }
+    
+    /* Header styles */
+    .filter-table.theme-dark thead {
+      background-color: #1a1a1a;
+    }
+    
+    .filter-table.theme-dark th {
+      border-bottom: 2px solid #444;
+      color: #fff;
+    }
+    
+    .filter-table.theme-dark th.sortable:hover {
+      background-color: #333;
+    }
+    
+    .filter-table.theme-dark th.sortable::after {
+      color: #777;
+    }
+    
+    .filter-table.theme-dark th[data-sort-direction="asc"]::after,
+    .filter-table.theme-dark th[data-sort-direction="desc"]::after {
+      color: #fff;
+    }
+    
+    /* Filter row styles */
+    .filter-table.theme-dark tr.filter-row td {
+      border-bottom: 1px solid #444;
+      background-color: #222;
+    }
+    
+    /* Filter icon styles */
+    .filter-table.theme-dark .filter-icon {
+      color: #aaa;
+    }
+    
+    .filter-table.theme-dark .filter-icon:hover {
+      background-color: #333;
+      color: #fff;
+    }
+    
+    /* Filter dropdown styles */
+    .filter-table.theme-dark .filter-dropdown {
+      background-color: #333;
+      border: 1px solid #555;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Filter options styles */
+    .filter-table.theme-dark .filter-options {
+      border-top: 1px solid #444;
+    }
+    
+    .filter-table.theme-dark .filter-option:hover {
+      background-color: #444;
+    }
+    
+    /* Filter input styles */
+    .filter-table.theme-dark .filter-input {
+      background-color: #333;
+      border: 1px solid #555;
+      color: #e0e0e0;
+    }
+    
+    .filter-table.theme-dark .filter-input:focus {
+      border-color: #4d90fe;
+      box-shadow: 0 0 0 2px rgba(77, 144, 254, 0.3);
+    }
+    
+    .filter-table.theme-dark .filter-select {
+      background-color: #333;
+      color: #e0e0e0;
+    }
+    
+    /* Body styles */
+    .filter-table.theme-dark tbody tr {
+      border-bottom: 1px solid #444;
+    }
+    
+    .filter-table.theme-dark tbody tr:nth-child(even) {
+      background-color: #2a2a2a;
+    }
+    
+    .filter-table.theme-dark tbody tr:hover {
+      background-color: #3a3a3a;
+    }
+    
+    .filter-table.theme-dark td {
+      color: #e0e0e0;
+    }
+    
+    /* Empty row styles */
+    .filter-table.theme-dark tr.empty-row td {
+      color: #888;
+    }
+  </style>
+  
+  <style id="blue-theme">
+    /* Blue theme styles */
+    .filter-table.theme-blue {
+      color: #333;
+      background-color: #fff;
+      border-color: #d0e4f7;
+    }
+    
+    /* Header styles */
+    .filter-table.theme-blue thead {
+      background-color: #e6f2ff;
+    }
+    
+    .filter-table.theme-blue th {
+      border-bottom: 2px solid #a8c6e5;
+      color: #2c5c9c;
+      font-weight: 600;
+    }
+    
+    .filter-table.theme-blue th.sortable:hover {
+      background-color: #d0e4f7;
+    }
+    
+    .filter-table.theme-blue th.sortable::after {
+      color: #7aa7d5;
+    }
+    
+    .filter-table.theme-blue th[data-sort-direction="asc"]::after,
+    .filter-table.theme-blue th[data-sort-direction="desc"]::after {
+      color: #2c5c9c;
+    }
+    
+    /* Filter row styles */
+    .filter-table.theme-blue tr.filter-row td {
+      border-bottom: 1px solid #d0e4f7;
+      background-color: #f5f9ff;
+    }
+    
+    /* Filter icon styles */
+    .filter-table.theme-blue .filter-icon {
+      color: #5a8bc9;
+    }
+    
+    .filter-table.theme-blue .filter-icon:hover {
+      background-color: #d0e4f7;
+      color: #2c5c9c;
+    }
+    
+    /* Filter dropdown styles */
+    .filter-table.theme-blue .filter-dropdown {
+      background-color: #fff;
+      border: 1px solid #d0e4f7;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Filter options styles */
+    .filter-table.theme-blue .filter-options {
+      border-top: 1px solid #e6f2ff;
+    }
+    
+    .filter-table.theme-blue .filter-option:hover {
+      background-color: #e6f2ff;
+    }
+    
+    /* Filter input styles */
+    .filter-table.theme-blue .filter-input {
+      background-color: #fff;
+      border: 1px solid #a8c6e5;
+      color: #333;
+    }
+    
+    .filter-table.theme-blue .filter-input:focus {
+      border-color: #5a8bc9;
+      box-shadow: 0 0 0 2px rgba(90, 139, 201, 0.2);
+    }
+    
+    .filter-table.theme-blue .filter-select {
+      background-color: #fff;
+      border-color: #a8c6e5;
+    }
+    
+    /* Body styles */
+    .filter-table.theme-blue tbody tr {
+      border-bottom: 1px solid #d0e4f7;
+    }
+    
+    .filter-table.theme-blue tbody tr:nth-child(even) {
+      background-color: #f5f9ff;
+    }
+    
+    .filter-table.theme-blue tbody tr:hover {
+      background-color: #e6f2ff;
+    }
+  </style>
+  
+  <style id="minimal-theme">
+    /* Minimal theme styles */
+    .filter-table.theme-minimal {
+      color: #333;
+      background-color: #fff;
+      border: none;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      box-shadow: none;
+    }
+    
+    /* Header styles */
+    .filter-table.theme-minimal thead {
+      background-color: transparent;
+    }
+    
+    .filter-table.theme-minimal th {
+      padding: 12px 8px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid #eee;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      color: #888;
+    }
+    
+    .filter-table.theme-minimal th.sortable:hover {
+      background-color: #f9f9f9;
+    }
+    
+    /* Body styles */
+    .filter-table.theme-minimal tbody tr {
+      border-bottom: 1px solid #eee;
+    }
+    
+    .filter-table.theme-minimal tbody tr:nth-child(even) {
+      background-color: transparent;
+    }
+    
+    .filter-table.theme-minimal tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .filter-table.theme-minimal td {
+      padding: 12px 8px;
+      vertical-align: middle;
+    }
+  </style>
+  
+  <style id="high-contrast-theme">
+    /* High Contrast theme styles */
+    .filter-table.theme-high-contrast {
+      color: #000;
+      background-color: #fff;
+      border: 2px solid #000;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    
+    /* Header styles */
+    .filter-table.theme-high-contrast thead {
+      background-color: #000;
+    }
+    
+    .filter-table.theme-high-contrast th {
+      padding: 12px 8px;
+      text-align: left;
+      font-weight: 700;
+      border: 2px solid #000;
+      color: #fff;
+      font-size: 16px;
+    }
+    
+    /* Body styles */
+    .filter-table.theme-high-contrast tbody tr {
+      border: 2px solid #000;
+    }
+    
+    .filter-table.theme-high-contrast tbody tr:nth-child(even) {
+      background-color: #f0f0f0;
+    }
+    
+    .filter-table.theme-high-contrast tbody tr:hover {
+      background-color: #e0e0e0;
+    }
+    
+    .filter-table.theme-high-contrast td {
+      padding: 12px 8px;
+      vertical-align: middle;
+      border: 2px solid #000;
+      font-size: 16px;
+    }
+  </style>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+    }
+    
+    .container {
+      margin-bottom: 30px;
+    }
+    
+    .controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .theme-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-right: 20px;
+    }
+    
+    select, button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    select:hover, button:hover {
+      background-color: #e5e5e5;
+    }
+    
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+    }
+    
+    /* Custom theme example */
+    .custom-theme-example {
+      margin-top: 40px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    /* Custom theme CSS */
+    .filter-table.theme-custom {
+      font-family: 'Courier New', monospace;
+      border: 2px solid #9c27b0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .filter-table.theme-custom thead {
+      background-color: #9c27b0;
+    }
+    
+    .filter-table.theme-custom th {
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: none;
+    }
+    
+    .filter-table.theme-custom th.sortable:hover {
+      background-color: #7b1fa2;
+    }
+    
+    .filter-table.theme-custom tbody tr:nth-child(even) {
+      background-color: #f3e5f5;
+    }
+    
+    .filter-table.theme-custom tbody tr:hover {
+      background-color: #e1bee7;
+    }
+    
+    .filter-table.theme-custom .filter-input:focus {
+      border-color: #9c27b0;
+      box-shadow: 0 0 0 2px rgba(156, 39, 176, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>FilterTable Styling Example</h1>
+  
+  <div class="container">
+    <div class="controls">
+      <div class="theme-selector">
+        <label for="theme-select">Theme:</label>
+        <select id="theme-select">
+          <option value="">Default</option>
+          <option value="dark">Dark</option>
+          <option value="blue">Blue</option>
+          <option value="minimal">Minimal</option>
+          <option value="high-contrast">High Contrast</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      
+      <button id="add-filter">Add Filter</button>
+      <button id="clear-filters">Clear Filters</button>
+    </div>
+    
+    <div id="table-container"></div>
+    
+    <div class="status">
+      <h3>Status</h3>
+      <div id="status-output"></div>
+    </div>
+    
+    <div class="custom-theme-example">
+      <h3>Custom Theme Example</h3>
+      <p>This example includes a custom "Purple" theme that you can select from the dropdown above. The custom theme is defined in the style section of this HTML file.</p>
+      <p>To create your own theme, you can:</p>
+      <ol>
+        <li>Define CSS classes for your theme in a separate CSS file</li>
+        <li>Load the custom stylesheet using <code>table.loadCustomStylesheet('path/to/your/theme.css')</code></li>
+        <li>Apply the theme using <code>table.setTheme('your-theme-name')</code></li>
+      </ol>
+      <p>See the <a href="../docs/styling-guide.md">Styling Guide</a> for more details.</p>
+    </div>
+  </div>
+  
+  <script type="module">
+    // Import the library modules directly
+    import FilterTable from '../src/index.js';
+    import { formatCurrency } from '../src/utils/data-types.js';
+    
+    // Sample data
+    const data = [
+      { id: 1, name: 'John Doe', age: 30, joined: '2020-01-15', active: true, department: 'Engineering', salary: 85000, country: 'US' },
+      { id: 2, name: 'Jane Smith', age: 25, joined: '2021-03-20', active: false, department: 'Marketing', salary: 65000, country: 'GB' },
+      { id: 3, name: 'Bob Johnson', age: 45, joined: '2019-05-10', active: true, department: 'Engineering', salary: 110000, country: 'US' },
+      { id: 4, name: 'Alice Williams', age: 28, joined: '2022-02-05', active: true, department: 'Design', salary: 72000, country: 'CA' },
+      { id: 5, name: 'Charlie Brown', age: 33, joined: '2020-11-18', active: false, department: 'Sales', salary: 78000, country: 'AU' },
+      { id: 6, name: 'Diana Miller', age: 22, joined: '2023-01-30', active: true, department: 'Marketing', salary: 58000, country: 'NZ' },
+      { id: 7, name: 'Edward Davis', age: 40, joined: '2018-07-22', active: true, department: 'Engineering', salary: 105000, country: 'EU' },
+      { id: 8, name: 'Fiona Wilson', age: 35, joined: '2021-09-14', active: false, department: 'HR', salary: 82000, country: 'JP' },
+      { id: 9, name: 'George Taylor', age: 27, joined: '2022-06-08', active: true, department: 'Design', salary: 70000, country: 'CN' },
+      { id: 10, name: 'Hannah Moore', age: 31, joined: '2019-12-03', active: true, department: 'Sales', salary: 80000, country: 'IN' }
+    ];
+    
+    // Status output function
+    function updateStatus(message) {
+      const statusOutput = document.getElementById('status-output');
+      const timestamp = new Date().toLocaleTimeString();
+      statusOutput.innerHTML += `<p><strong>${timestamp}</strong>: ${message}</p>`;
+      statusOutput.scrollTop = statusOutput.scrollHeight;
+    }
+    
+    // Initialize the table
+    let table;
+    
+    try {
+      table = new FilterTable('#table-container', {
+        data: data,
+        columns: [
+          { field: 'id', title: 'ID', filterable: true, sortable: true },
+          { field: 'name', title: 'Name', filterable: true, sortable: true },
+          { field: 'age', title: 'Age', filterable: true, filterType: 'number', sortable: true },
+          { field: 'joined', title: 'Join Date', filterable: true, filterType: 'date', sortable: true },
+          { field: 'active', title: 'Active', filterable: true, filterType: 'boolean', sortable: true },
+          { field: 'department', title: 'Department', filterable: true, filterType: 'select', sortable: true },
+          { 
+            field: 'salary', 
+            title: 'Salary', 
+            filterable: true, 
+            filterType: 'number', 
+            sortable: true,
+            dataType: 'currency',
+            formatter: function(value, row) {
+              // Use the country code from the row data
+              return formatCurrency(value, row.country);
+            }
+          },
+          { field: 'country', title: 'Country', filterable: true, filterType: 'select', sortable: true }
+        ],
+        styling: {
+          // Use absolute paths for theme stylesheets
+          themesPath: '/filter-table/src/styles/themes/'
+        }
+      });
+      
+      updateStatus('Table initialized successfully');
+      
+      // Get available themes
+      const availableThemes = table.getAvailableThemes();
+      updateStatus(`Available themes: ${availableThemes.join(', ')}`);
+    } catch (error) {
+      updateStatus(`Error initializing table: ${error.message}`);
+      console.error(error);
+    }
+    
+    // Set up event listeners
+    if (table) {
+      // Listen for filter changes
+      table.on('filterChange', (data) => {
+        updateStatus(`Filters changed: ${JSON.stringify(data.filters)}`);
+      });
+      
+      // Listen for sort events
+      table.on('sort', (data) => {
+        updateStatus(`Table sorted by: ${data.field} (${data.direction})`);
+      });
+    }
+    
+    // Add buttons to directly apply each theme
+    const themes = ['dark', 'blue', 'minimal', 'high-contrast', 'custom'];
+    const themeButtonsContainer = document.createElement('div');
+    themeButtonsContainer.style.display = 'flex';
+    themeButtonsContainer.style.gap = '10px';
+    themeButtonsContainer.style.marginTop = '10px';
+    document.querySelector('.controls').appendChild(themeButtonsContainer);
+    
+    themes.forEach(themeName => {
+      const button = document.createElement('button');
+      button.textContent = `Apply ${themeName.charAt(0).toUpperCase() + themeName.slice(1)} Theme`;
+      button.addEventListener('click', function() {
+        console.log(`${themeName} theme button clicked`);
+        applyTheme(themeName);
+      });
+      themeButtonsContainer.appendChild(button);
+    });
+    
+    // Add a button to reset to default theme
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset to Default';
+    resetButton.addEventListener('click', function() {
+      console.log('Reset button clicked');
+      applyTheme('');
+    });
+    themeButtonsContainer.appendChild(resetButton);
+    
+    // Function to apply theme
+    function applyTheme(themeName) {
+      console.log('Applying theme:', themeName);
+      
+      try {
+        // Get the table element
+        const tableElement = document.querySelector('.filter-table');
+        console.log('Table element:', tableElement);
+        
+        if (!tableElement) {
+          throw new Error('Table element not found');
+        }
+        
+        // Log current classes
+        console.log('Current classes:', tableElement.className);
+        
+        // Remove any existing theme classes
+        tableElement.classList.remove('theme-dark', 'theme-blue', 'theme-minimal', 'theme-high-contrast', 'theme-custom');
+        
+        // Log classes after removal
+        console.log('Classes after removal:', tableElement.className);
+        
+        // Apply the selected theme class
+        if (themeName) {
+          tableElement.classList.add(`theme-${themeName}`);
+          console.log('Classes after adding theme:', tableElement.className);
+          updateStatus(`Applied theme: ${themeName}`);
+        } else {
+          updateStatus('Removed theme (using default)');
+        }
+      } catch (error) {
+        console.error('Error setting theme:', error);
+        updateStatus(`Error setting theme: ${error.message}`);
+      }
+    }
+    
+    // Theme selector
+    const themeSelect = document.getElementById('theme-select');
+    console.log('Theme select element:', themeSelect);
+    
+    themeSelect.addEventListener('change', function(event) {
+      console.log('Theme select change event triggered');
+      const selectedTheme = this.value;
+      console.log('Theme selected from dropdown:', selectedTheme);
+      applyTheme(selectedTheme);
+    });
+    
+    // Also add a click event to ensure the change event is triggered
+    themeSelect.addEventListener('click', function() {
+      console.log('Theme select clicked');
+    });
+    
+    // No need for this code anymore since we're creating theme buttons dynamically
+    
+    // Add filter button
+    document.getElementById('add-filter').addEventListener('click', () => {
+      try {
+        table.addFilter({
+          column: 'department',
+          type: 'equals',
+          value: 'Engineering'
+        });
+        updateStatus('Added filter: department = Engineering');
+      } catch (error) {
+        updateStatus(`Error adding filter: ${error.message}`);
+      }
+    });
+    
+    // Clear filters button
+    document.getElementById('clear-filters').addEventListener('click', () => {
+      try {
+        table.clearFilters();
+        updateStatus('All filters cleared');
+      } catch (error) {
+        updateStatus(`Error clearing filters: ${error.message}`);
+      }
+    });
+  </script>
+</body>
+</html>

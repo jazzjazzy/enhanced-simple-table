@@ -1,0 +1,346 @@
+/**
+ * High Contrast theme for FilterTable
+ * Designed for accessibility and readability
+ */
+
+.filter-table.theme-high-contrast {
+  color: #000;
+  background-color: #fff;
+  border: 2px solid #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Header styles */
+.filter-table.theme-high-contrast thead {
+  background-color: #000;
+}
+
+.filter-table.theme-high-contrast th {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 700;
+  border: 2px solid #000;
+  color: #fff;
+  font-size: 16px;
+}
+
+.filter-table.theme-high-contrast th.sortable {
+  cursor: pointer;
+  padding-right: 30px;
+}
+
+.filter-table.theme-high-contrast th.sortable:hover {
+  background-color: #333;
+}
+
+.filter-table.theme-high-contrast th.sortable::after {
+  content: "↕";
+  display: inline-block;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: #fff;
+}
+
+.filter-table.theme-high-contrast th[data-sort-direction="asc"]::after {
+  content: "↑";
+  color: #fff;
+}
+
+.filter-table.theme-high-contrast th[data-sort-direction="desc"]::after {
+  content: "↓";
+  color: #fff;
+}
+
+/* Filter row styles */
+.filter-table.theme-high-contrast tr.filter-row td {
+  padding: 12px 8px;
+  border: 2px solid #000;
+  background-color: #f0f0f0;
+}
+
+/* Filter container styles */
+.filter-table.theme-high-contrast .filter-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Filter icon styles */
+.filter-table.theme-high-contrast .filter-icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  color: #000;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.filter-table.theme-high-contrast .filter-icon:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Filter dropdown styles */
+.filter-table.theme-high-contrast .filter-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 220px;
+  padding: 12px;
+  margin-top: 4px;
+  background-color: #fff;
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.filter-table.theme-high-contrast .filter-dropdown.visible {
+  display: block;
+}
+
+/* Filter options styles */
+.filter-table.theme-high-contrast .filter-options {
+  margin-top: 12px;
+  border-top: 2px solid #000;
+  padding-top: 12px;
+}
+
+.filter-table.theme-high-contrast .filter-option {
+  padding: 8px;
+  cursor: pointer;
+  border: 1px solid #000;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.filter-table.theme-high-contrast .filter-option:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Filter input styles */
+.filter-table.theme-high-contrast .filter-input {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #000;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.filter-table.theme-high-contrast .filter-input:focus {
+  outline: 3px solid #0078d7;
+  border-color: #000;
+}
+
+.filter-table.theme-high-contrast .filter-number-container {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-table.theme-high-contrast .filter-number {
+  width: 50%;
+}
+
+.filter-table.theme-high-contrast .filter-date {
+  width: 100%;
+}
+
+.filter-table.theme-high-contrast .filter-select {
+  width: 100%;
+  height: 36px;
+  border: 2px solid #000;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+/* Body styles */
+.filter-table.theme-high-contrast tbody tr {
+  border: 2px solid #000;
+}
+
+.filter-table.theme-high-contrast tbody tr:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+.filter-table.theme-high-contrast tbody tr:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-table.theme-high-contrast td {
+  padding: 12px 8px;
+  vertical-align: middle;
+  border: 2px solid #000;
+  font-size: 16px;
+}
+
+/* Empty row styles */
+.filter-table.theme-high-contrast tr.empty-row td {
+  text-align: center;
+  padding: 20px;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Advanced filter UI */
+.filter-table.theme-high-contrast .filter-table-advanced-filter {
+  margin-bottom: 1rem;
+  padding: 16px;
+  border: 2px solid #000;
+  background-color: #f0f0f0;
+}
+
+.filter-table.theme-high-contrast .filter-table-advanced-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.filter-table.theme-high-contrast .filter-table-advanced-filter-title {
+  font-weight: 700;
+  font-size: 18px;
+  color: #000;
+}
+
+.filter-table.theme-high-contrast .filter-table-advanced-filter-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-table.theme-high-contrast .filter-table-advanced-filter-button {
+  padding: 8px 12px;
+  border: 2px solid #000;
+  background-color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filter-table.theme-high-contrast .filter-table-advanced-filter-button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.filter-table.theme-high-contrast .filter-table-advanced-filter-button.primary {
+  background-color: #000;
+  color: #fff;
+}
+
+.filter-table.theme-high-contrast .filter-table-advanced-filter-button.primary:hover {
+  background-color: #333;
+}
+
+.filter-table.theme-high-contrast .filter-table-advanced-filter-group {
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 2px solid #000;
+  background-color: #fff;
+}
+
+/* Filter visualization */
+.filter-table.theme-high-contrast .filter-table-filter-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  background-color: #f0f0f0;
+  border: 2px solid #000;
+  font-size: 14px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.filter-table.theme-high-contrast .filter-table-filter-tag-label {
+  margin-right: 6px;
+  font-weight: 700;
+  color: #000;
+}
+
+.filter-table.theme-high-contrast .filter-table-filter-tag-value {
+  margin-right: 6px;
+  color: #000;
+}
+
+.filter-table.theme-high-contrast .filter-table-filter-tag-remove {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000;
+  background-color: #fff;
+  cursor: pointer;
+  color: #000;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.filter-table.theme-high-contrast .filter-table-filter-tag-remove:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Pagination */
+.filter-table.theme-high-contrast .filter-table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 16px;
+  border-top: 2px solid #000;
+  padding-top: 16px;
+}
+
+.filter-table.theme-high-contrast .filter-table-pagination-info {
+  color: #000;
+  font-weight: bold;
+}
+
+.filter-table.theme-high-contrast .filter-table-pagination-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-table.theme-high-contrast .filter-table-pagination-button {
+  padding: 8px 12px;
+  border: 2px solid #000;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.filter-table.theme-high-contrast .filter-table-pagination-button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.filter-table.theme-high-contrast .filter-table-pagination-button.active {
+  background-color: #000;
+  color: #fff;
+}
+
+.filter-table.theme-high-contrast .filter-table-pagination-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border: 2px solid #666;
+  color: #666;
+}
+
+/* Focus styles for accessibility */
+.filter-table.theme-high-contrast *:focus {
+  outline: 3px solid #0078d7;
+  outline-offset: 2px;
+}

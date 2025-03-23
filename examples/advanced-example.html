@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FilterTable Advanced Example</title>
+  <link rel="stylesheet" href="../src/styles/base.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+    }
+    
+    .container {
+      margin-bottom: 30px;
+    }
+    
+    .controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #e5e5e5;
+    }
+    
+    .code-block {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
+    
+    pre {
+      margin: 0;
+    }
+    
+    code {
+      font-family: Consolas, Monaco, 'Andale Mono', monospace;
+      font-size: 14px;
+    }
+    
+    .filter-groups {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+    
+    .filter-group {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    
+    .filter-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    .filter-list {
+      margin-bottom: 10px;
+    }
+    
+    .filter-item {
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .saved-filters {
+      margin-top: 20px;
+    }
+    
+    .saved-filter-item {
+      margin-bottom: 5px;
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+      display: inline-block;
+      cursor: pointer;
+    }
+    
+    .saved-filter-item:hover {
+      background-color: #e5e5e5;
+    }
+  </style>
+</head>
+<body>
+  <h1>FilterTable Advanced Example</h1>
+  
+  <div class="container">
+    <h2>Advanced Filtering Capabilities</h2>
+    <p>This example demonstrates the advanced filtering capabilities of FilterTable, including filter groups, fuzzy search, and saved filters.</p>
+    
+    <div class="controls">
+      <button id="clearFilters">Clear All Filters</button>
+      <button id="addFuzzyFilter">Fuzzy Search: "Smth"</button>
+      <button id="addFilterGroup">Add OR Filter Group</button>
+      <button id="saveCurrentFilters">Save Current Filters</button>
+    </div>
+    
+    <div class="saved-filters">
+      <h3>Saved Filters</h3>
+      <div id="savedFiltersList"></div>
+    </div>
+    
+    <div id="table-container"></div>
+  </div>
+  
+  <div class="container">
+    <h2>Advanced Usage</h2>
+    <div class="code-block">
+      <pre><code>// Add a fuzzy search filter
+table.addFilter({
+  column: 'name',
+  type: 'fuzzy',
+  value: 'smth',
+  tolerance: 0.3
+});
+
+// Add a filter group with OR logic
+table.addFilterGroup({
+  operator: 'OR',
+  filters: [
+    { column: 'age', type: 'range', min: 25, max: 35 },
+    { column: 'joined', type: 'date', comparison: 'after', value: '2022-01-01' }
+  ]
+});
+
+// Save current filters
+const savedFilter = table.saveCurrentFilters('my-favorite-view');
+
+// Apply saved filters later
+table.applyFilters(savedFilter);</code></pre>
+    </div>
+  </div>
+  
+  <script type="module">
+    // Import the library modules directly
+    // In a real application, you would use the bundled version
+    import FilterTable from '../src/index.js';
+    
+    // Sample data with more complex entries
+    const data = [
+      { id: 1, name: 'John Doe', age: 30, joined: '2020-01-15', active: true, department: 'Engineering', salary: 85000, skills: ['JavaScript', 'React', 'Node.js'] },
+      { id: 2, name: 'Jane Smith', age: 25, joined: '2021-03-20', active: false, department: 'Marketing', salary: 65000, skills: ['SEO', 'Content Writing', 'Social Media'] },
+      { id: 3, name: 'Bob Johnson', age: 45, joined: '2019-05-10', active: true, department: 'Engineering', salary: 110000, skills: ['Java', 'Spring', 'SQL'] },
+      { id: 4, name: 'Alice Williams', age: 28, joined: '2022-02-05', active: true, department: 'Design', salary: 72000, skills: ['Photoshop', 'Illustrator', 'UI/UX'] },
+      { id: 5, name: 'Charlie Brown', age: 33, joined: '2020-11-18', active: false, department: 'Sales', salary: 78000, skills: ['Negotiation', 'CRM', 'Presentation'] },
+      { id: 6, name: 'Diana Miller', age: 22, joined: '2023-01-30', active: true, department: 'Marketing', salary: 58000, skills: ['Content Writing', 'SEO', 'Analytics'] },
+      { id: 7, name: 'Edward Davis', age: 40, joined: '2018-07-22', active: true, department: 'Engineering', salary: 105000, skills: ['Python', 'Django', 'AWS'] },
+      { id: 8, name: 'Fiona Wilson', age: 35, joined: '2021-09-14', active: false, department: 'HR', salary: 82000, skills: ['Recruitment', 'Employee Relations', 'Training'] },
+      { id: 9, name: 'George Taylor', age: 27, joined: '2022-06-08', active: true, department: 'Design', salary: 70000, skills: ['UI/UX', 'Figma', 'Sketch'] },
+      { id: 10, name: 'Hannah Moore', age: 31, joined: '2019-12-03', active: true, department: 'Sales', salary: 80000, skills: ['Negotiation', 'Account Management', 'CRM'] },
+      { id: 11, name: 'Ian Clark', age: 29, joined: '2020-08-19', active: false, department: 'Engineering', salary: 88000, skills: ['JavaScript', 'React', 'GraphQL'] },
+      { id: 12, name: 'Julia Adams', age: 38, joined: '2018-03-27', active: true, department: 'Management', salary: 120000, skills: ['Leadership', 'Strategy', 'Finance'] },
+      { id: 13, name: 'Kevin White', age: 24, joined: '2023-04-12', active: true, department: 'Engineering', salary: 67000, skills: ['JavaScript', 'HTML', 'CSS'] },
+      { id: 14, name: 'Laura Evans', age: 42, joined: '2019-02-14', active: false, department: 'Management', salary: 125000, skills: ['Strategy', 'Operations', 'Leadership'] },
+      { id: 15, name: 'Michael Harris', age: 36, joined: '2021-07-01', active: true, department: 'Engineering', salary: 95000, skills: ['C#', '.NET', 'Azure'] },
+      { id: 16, name: 'Nancy Lee', age: 26, joined: '2022-11-09', active: true, department: 'Design', salary: 68000, skills: ['Photoshop', 'Illustrator', 'InDesign'] },
+      { id: 17, name: 'Oliver King', age: 32, joined: '2020-04-23', active: false, department: 'Sales', salary: 79000, skills: ['Negotiation', 'Presentation', 'Client Relations'] },
+      { id: 18, name: 'Patricia Scott', age: 39, joined: '2018-10-05', active: true, department: 'HR', salary: 90000, skills: ['Recruitment', 'Policy Development', 'Training'] },
+      { id: 19, name: 'Quentin Reed', age: 23, joined: '2023-02-18', active: false, department: 'Marketing', salary: 60000, skills: ['Social Media', 'Content Creation', 'Analytics'] },
+      { id: 20, name: 'Rachel Green', age: 34, joined: '2019-08-30', active: true, department: 'Design', salary: 85000, skills: ['UI/UX', 'Prototyping', 'User Research'] }
+    ];
+    
+    // Initialize the table with more columns
+    const table = new FilterTable('#table-container', {
+      data: data,
+      columns: [
+        { field: 'id', title: 'ID', filterable: true },
+        { field: 'name', title: 'Name', filterable: true },
+        { field: 'age', title: 'Age', filterable: true, filterType: 'number' },
+        { field: 'joined', title: 'Join Date', filterable: true, filterType: 'date' },
+        { field: 'active', title: 'Active', filterable: true, filterType: 'boolean' },
+        { field: 'department', title: 'Department', filterable: true, filterType: 'select' },
+        { field: 'salary', title: 'Salary', filterable: true, filterType: 'number' },
+        { 
+          field: 'skills', 
+          title: 'Skills', 
+          filterable: true,
+          formatter: (value) => Array.isArray(value) ? value.join(', ') : value
+        }
+      ]
+    });
+    
+    // Track saved filters
+    const savedFilters = {};
+    let savedFilterCount = 0;
+    
+    // Function to update saved filters list
+    function updateSavedFiltersList() {
+      const container = document.getElementById('savedFiltersList');
+      container.innerHTML = '';
+      
+      if (Object.keys(savedFilters).length === 0) {
+        container.innerHTML = '<p>No saved filters yet.</p>';
+        return;
+      }
+      
+      Object.entries(savedFilters).forEach(([name, filters]) => {
+        const item = document.createElement('div');
+        item.className = 'saved-filter-item';
+        item.textContent = name;
+        item.addEventListener('click', () => {
+          table.applyFilters(filters);
+        });
+        container.appendChild(item);
+      });
+    }
+    
+    // Initial update
+    updateSavedFiltersList();
+    
+    // Set up button event listeners
+    document.getElementById('clearFilters').addEventListener('click', () => {
+      table.clearFilters();
+    });
+    
+    document.getElementById('addFuzzyFilter').addEventListener('click', () => {
+      table.addFilter({
+        column: 'name',
+        type: 'fuzzy',
+        value: 'Smth',
+        tolerance: 0.3
+      });
+    });
+    
+    document.getElementById('addFilterGroup').addEventListener('click', () => {
+      table.addFilterGroup({
+        operator: 'OR',
+        filters: [
+          { column: 'age', type: 'range', min: 25, max: 35 },
+          { column: 'joined', type: 'date', comparison: 'after', value: '2022-01-01' }
+        ]
+      });
+    });
+    
+    document.getElementById('saveCurrentFilters').addEventListener('click', () => {
+      savedFilterCount++;
+      const name = `Saved Filter ${savedFilterCount}`;
+      savedFilters[name] = table.getCurrentFilters();
+      updateSavedFiltersList();
+      alert(`Filters saved as "${name}"`);
+    });
+  </script>
+</body>
+</html>

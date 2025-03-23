@@ -1,0 +1,323 @@
+/**
+ * Minimal theme for FilterTable
+ */
+
+.filter-table.theme-minimal {
+  color: #333;
+  background-color: #fff;
+  border: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-shadow: none;
+}
+
+/* Header styles */
+.filter-table.theme-minimal thead {
+  background-color: transparent;
+}
+
+.filter-table.theme-minimal th {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #888;
+}
+
+.filter-table.theme-minimal th.sortable {
+  cursor: pointer;
+}
+
+.filter-table.theme-minimal th.sortable:hover {
+  background-color: #f9f9f9;
+}
+
+.filter-table.theme-minimal th.sortable::after {
+  content: "↕";
+  display: inline-block;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8em;
+  color: #ccc;
+}
+
+.filter-table.theme-minimal th[data-sort-direction="asc"]::after {
+  content: "↑";
+  color: #333;
+}
+
+.filter-table.theme-minimal th[data-sort-direction="desc"]::after {
+  content: "↓";
+  color: #333;
+}
+
+/* Filter row styles */
+.filter-table.theme-minimal tr.filter-row td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  background-color: transparent;
+}
+
+/* Filter container styles */
+.filter-table.theme-minimal .filter-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Filter icon styles */
+.filter-table.theme-minimal .filter-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  color: #ccc;
+  border-radius: 50%;
+}
+
+.filter-table.theme-minimal .filter-icon:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Filter dropdown styles */
+.filter-table.theme-minimal .filter-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 200px;
+  padding: 8px;
+  margin-top: 4px;
+  background-color: #fff;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-table.theme-minimal .filter-dropdown.visible {
+  display: block;
+}
+
+/* Filter options styles */
+.filter-table.theme-minimal .filter-options {
+  margin-top: 8px;
+  border-top: 1px solid #f5f5f5;
+  padding-top: 8px;
+}
+
+.filter-table.theme-minimal .filter-option {
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.filter-table.theme-minimal .filter-option:hover {
+  background-color: #f5f5f5;
+}
+
+/* Filter input styles */
+.filter-table.theme-minimal .filter-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.filter-table.theme-minimal .filter-input:focus {
+  outline: none;
+  border-color: #ddd;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.filter-table.theme-minimal .filter-number-container {
+  display: flex;
+  gap: 4px;
+}
+
+.filter-table.theme-minimal .filter-number {
+  width: 50%;
+}
+
+.filter-table.theme-minimal .filter-date {
+  width: 100%;
+}
+
+.filter-table.theme-minimal .filter-select {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+/* Body styles */
+.filter-table.theme-minimal tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.filter-table.theme-minimal tbody tr:nth-child(even) {
+  background-color: transparent;
+}
+
+.filter-table.theme-minimal tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.filter-table.theme-minimal td {
+  padding: 12px 8px;
+  vertical-align: middle;
+}
+
+/* Empty row styles */
+.filter-table.theme-minimal tr.empty-row td {
+  text-align: center;
+  padding: 20px;
+  color: #ccc;
+  font-style: italic;
+}
+
+/* Advanced filter UI */
+.filter-table.theme-minimal .filter-table-advanced-filter {
+  margin-bottom: 1rem;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.filter-table.theme-minimal .filter-table-advanced-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.filter-table.theme-minimal .filter-table-advanced-filter-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.filter-table.theme-minimal .filter-table-advanced-filter-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-table.theme-minimal .filter-table-advanced-filter-button {
+  padding: 4px 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filter-table.theme-minimal .filter-table-advanced-filter-button:hover {
+  background-color: #f5f5f5;
+}
+
+.filter-table.theme-minimal .filter-table-advanced-filter-button.primary {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.filter-table.theme-minimal .filter-table-advanced-filter-button.primary:hover {
+  background-color: #555;
+}
+
+.filter-table.theme-minimal .filter-table-advanced-filter-group {
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+/* Filter visualization */
+.filter-table.theme-minimal .filter-table-filter-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: #f5f5f5;
+  border-radius: 16px;
+  font-size: 12px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+.filter-table.theme-minimal .filter-table-filter-tag-label {
+  margin-right: 4px;
+  font-weight: 600;
+  color: #888;
+}
+
+.filter-table.theme-minimal .filter-table-filter-tag-value {
+  margin-right: 4px;
+  color: #333;
+}
+
+.filter-table.theme-minimal .filter-table-filter-tag-remove {
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #ccc;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-table.theme-minimal .filter-table-filter-tag-remove:hover {
+  color: #888;
+}
+
+/* Pagination */
+.filter-table.theme-minimal .filter-table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 13px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.filter-table.theme-minimal .filter-table-pagination-info {
+  color: #888;
+}
+
+.filter-table.theme-minimal .filter-table-pagination-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.filter-table.theme-minimal .filter-table-pagination-button {
+  padding: 4px 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.filter-table.theme-minimal .filter-table-pagination-button:hover {
+  background-color: #f5f5f5;
+}
+
+.filter-table.theme-minimal .filter-table-pagination-button.active {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}

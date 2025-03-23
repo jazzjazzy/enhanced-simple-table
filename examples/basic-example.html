@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FilterTable Basic Example</title>
+  <link rel="stylesheet" href="../src/styles/base.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+    }
+    
+    .container {
+      margin-bottom: 30px;
+    }
+    
+    .controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #e5e5e5;
+    }
+    
+    .code-block {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
+    
+    pre {
+      margin: 0;
+    }
+    
+    code {
+      font-family: Consolas, Monaco, 'Andale Mono', monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>FilterTable Basic Example</h1>
+  
+  <div class="container">
+    <h2>Basic Table with Filtering</h2>
+    <p>This example demonstrates the basic functionality of FilterTable with column filtering.</p>
+    
+    <div class="controls">
+      <button id="clearFilters">Clear All Filters</button>
+      <button id="addNameFilter">Filter by Name: "John"</button>
+      <button id="addAgeFilter">Filter Age: 25-35</button>
+      <button id="addDateFilter">Filter Date: After 2022</button>
+    </div>
+    
+    <div id="table-container"></div>
+  </div>
+  
+  <div class="container">
+    <h2>Usage</h2>
+    <div class="code-block">
+      <pre><code>// Import the library
+import FilterTable from 'filter-table';
+
+// Sample data
+const data = [
+  { id: 1, name: 'John Doe', age: 30, joined: '2020-01-15', active: true },
+  { id: 2, name: 'Jane Smith', age: 25, joined: '2021-03-20', active: false },
+  // More data...
+];
+
+// Initialize the table
+const table = new FilterTable('#table-container', {
+  data: data,
+  columns: [
+    { field: 'id', title: 'ID', filterable: true },
+    { field: 'name', title: 'Name', filterable: true },
+    { field: 'age', title: 'Age', filterable: true, filterType: 'number' },
+    { field: 'joined', title: 'Join Date', filterable: true, filterType: 'date' },
+    { field: 'active', title: 'Active', filterable: true, filterType: 'boolean' }
+  ]
+});</code></pre>
+    </div>
+  </div>
+  
+  <script type="module">
+    // Import the library modules directly
+    // In a real application, you would use the bundled version
+    import FilterTable from '../src/index.js';
+    
+    // Sample data
+    const data = [
+      { id: 1, name: 'John Doe', age: 30, joined: '2020-01-15', active: true },
+      { id: 2, name: 'Jane Smith', age: 25, joined: '2021-03-20', active: false },
+      { id: 3, name: 'Bob Johnson', age: 45, joined: '2019-05-10', active: true },
+      { id: 4, name: 'Alice Williams', age: 28, joined: '2022-02-05', active: true },
+      { id: 5, name: 'Charlie Brown', age: 33, joined: '2020-11-18', active: false },
+      { id: 6, name: 'Diana Miller', age: 22, joined: '2023-01-30', active: true },
+      { id: 7, name: 'Edward Davis', age: 40, joined: '2018-07-22', active: true },
+      { id: 8, name: 'Fiona Wilson', age: 35, joined: '2021-09-14', active: false },
+      { id: 9, name: 'George Taylor', age: 27, joined: '2022-06-08', active: true },
+      { id: 10, name: 'Hannah Moore', age: 31, joined: '2019-12-03', active: true },
+      { id: 11, name: 'Ian Clark', age: 29, joined: '2020-08-19', active: false },
+      { id: 12, name: 'Julia Adams', age: 38, joined: '2018-03-27', active: true },
+      { id: 13, name: 'Kevin White', age: 24, joined: '2023-04-12', active: true },
+      { id: 14, name: 'Laura Evans', age: 42, joined: '2019-02-14', active: false },
+      { id: 15, name: 'Michael Harris', age: 36, joined: '2021-07-01', active: true },
+      { id: 16, name: 'Nancy Lee', age: 26, joined: '2022-11-09', active: true },
+      { id: 17, name: 'Oliver King', age: 32, joined: '2020-04-23', active: false },
+      { id: 18, name: 'Patricia Scott', age: 39, joined: '2018-10-05', active: true },
+      { id: 19, name: 'Quentin Reed', age: 23, joined: '2023-02-18', active: false },
+      { id: 20, name: 'Rachel Green', age: 34, joined: '2019-08-30', active: true }
+    ];
+    
+    // Initialize the table
+    const table = new FilterTable('#table-container', {
+      data: data,
+      columns: [
+        { field: 'id', title: 'ID', filterable: true },
+        { field: 'name', title: 'Name', filterable: true },
+        { field: 'age', title: 'Age', filterable: true, filterType: 'number' },
+        { field: 'joined', title: 'Join Date', filterable: true, filterType: 'date' },
+        { field: 'active', title: 'Active', filterable: true, filterType: 'boolean' }
+      ]
+    });
+    
+    // Set up button event listeners
+    document.getElementById('clearFilters').addEventListener('click', () => {
+      table.clearFilters();
+    });
+    
+    document.getElementById('addNameFilter').addEventListener('click', () => {
+      table.addFilter({
+        column: 'name',
+        type: 'contains',
+        value: 'John'
+      });
+    });
+    
+    document.getElementById('addAgeFilter').addEventListener('click', () => {
+      table.addFilter({
+        column: 'age',
+        type: 'range',
+        min: 25,
+        max: 35
+      });
+    });
+    
+    document.getElementById('addDateFilter').addEventListener('click', () => {
+      table.addFilter({
+        column: 'joined',
+        type: 'date',
+        comparison: 'after',
+        value: '2022-01-01'
+      });
+    });
+  </script>
+</body>
+</html>
