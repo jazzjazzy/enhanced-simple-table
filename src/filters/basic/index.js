@@ -271,27 +271,66 @@ export function dateRange(value, params) {
  * Boolean filter - checks if a boolean value matches the filter value
  * @param {*} value - Cell value to check
  * @param {Object} params - Filter parameters
- * @param {boolean} params.value - Boolean value to compare with
+ * @param {boolean|string} params.value - Boolean value to compare with
  * @returns {boolean} Whether the value passes the filter
  */
-export function boolean(value, params) {
+export function boolean(value, params, row) {
   if (value === undefined || value === null) {
     return false;
   }
   
-  // Convert string representations to boolean
-  if (typeof value === 'string') {
-    const lowerValue = value.toLowerCase();
-    if (lowerValue === 'true' || lowerValue === 'yes' || lowerValue === '1') {
-      value = true;
-    } else if (lowerValue === 'false' || lowerValue === 'no' || lowerValue === '0') {
-      value = false;
+  // First, determine what we're looking for (true or false)
+  let targetBoolean;
+  
+  // Convert filter value to boolean
+  if (typeof params.value === 'string') {
+    const lowerParamValue = params.value.toLowerCase();
+    if (lowerParamValue === 'true' || lowerParamValue === 'yes' || lowerParamValue === '1') {
+      targetBoolean = true;
+    } else if (lowerParamValue === 'false' || lowerParamValue === 'no' || lowerParamValue === '0') {
+      targetBoolean = false;
+    } else {
+      // If it's not a recognized boolean string, use the value as is
+      targetBoolean = Boolean(params.value);
     }
-  } else if (typeof value === 'number') {
-    value = value !== 0;
+  } else if (typeof params.value === 'number') {
+    targetBoolean = params.value !== 0;
+  } else {
+    // If it's already a boolean or other type, use it directly
+    targetBoolean = Boolean(params.value);
   }
   
-  return value === params.value;
+  // For cell value, we need to handle both actual booleans and string representations
+  let cellBoolean;
+  
+  // If it's already a boolean, use it directly
+  if (typeof value === 'boolean') {
+    cellBoolean = value;
+  } else if (typeof value === 'string') {
+    const lowerValue = value.toLowerCase();
+    if (lowerValue === 'true' || lowerValue === 'yes' || lowerValue === '1') {
+      cellBoolean = true;
+    } else if (lowerValue === 'false' || lowerValue === 'no' || lowerValue === '0') {
+      cellBoolean = false;
+    } else {
+      cellBoolean = Boolean(value);
+    }
+  } else if (typeof value === 'number') {
+    cellBoolean = value !== 0;
+  } else {
+    cellBoolean = Boolean(value);
+  }
+  
+  // Debug logging
+  console.log('Boolean filter:', { 
+    cellValue: value, 
+    cellBoolean: cellBoolean, 
+    filterValue: params.value,
+    targetBoolean: targetBoolean
+  });
+  
+  // Compare the boolean values
+  return cellBoolean === targetBoolean;
 }
 
 /**

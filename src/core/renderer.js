@@ -27,7 +27,9 @@ class Renderer {
       tbody: null,
       filterRow: null,
       filterInputs: new Map(),
-      styleLinks: new Map()
+      styleLinks: new Map(),
+      paginationContainer: null,
+      loadingIndicator: null
     };
     
     // Get styling options
@@ -59,8 +61,16 @@ class Renderer {
     // Create link element for theme
     const themeLink = document.createElement('link');
     themeLink.rel = 'stylesheet';
-    themeLink.href = this.stylingOptions.themesPath || `./src/styles/themes/${themeName}.css`;
+    
+    // Determine the correct path to the theme CSS file
+    // If we're in an example page, we need to go up one directory level
+    const isExample = window.location.pathname.includes('/examples/');
+    const themePath = isExample ? `../src/styles/themes/${themeName}.css` : `./src/styles/themes/${themeName}.css`;
+    
+    themeLink.href = this.stylingOptions.themesPath || themePath;
     themeLink.id = `filter-table-theme-${themeName}`;
+    
+    console.log(`Loading theme: ${themeName} from ${themeLink.href}`);
     
     // Add to document head
     document.head.appendChild(themeLink);
@@ -135,6 +145,11 @@ class Renderer {
     // Clear container first
     this.clear();
     
+    // Create wrapper div for the table and pagination
+    const wrapper = createDomElement('div', {
+      class: 'filter-table-wrapper'
+    });
+    
     // Create table element with appropriate classes
     let tableClasses = 'filter-table';
     if (this.currentTheme) {
@@ -163,8 +178,25 @@ class Renderer {
     this.elements.tbody = tbody;
     this.elements.filterRow = filterRow;
     
-    // Append to container
-    this.container.appendChild(table);
+    // Add table to wrapper
+    wrapper.appendChild(table);
+    
+    // Create and add pagination controls if enabled
+    if (this.table.paginationOptions.enabled) {
+      const paginationContainer = this._createPaginationControls();
+      wrapper.appendChild(paginationContainer);
+      this.elements.paginationContainer = paginationContainer;
+    }
+    
+    // Create and add loading indicator for endless scrolling if enabled
+    if (this.table.endlessScrollingOptions.enabled) {
+      const loadingIndicator = this._createLoadingIndicator();
+      wrapper.appendChild(loadingIndicator);
+      this.elements.loadingIndicator = loadingIndicator;
+    }
+    
+    // Append wrapper to container
+    this.container.appendChild(wrapper);
   }
   
   /**
@@ -180,6 +212,21 @@ class Renderer {
     
     // Update filter input values to match current filters
     this._updateFilterInputs();
+    
+    // Update pagination controls if enabled
+    if (this.table.paginationOptions.enabled && this.elements.paginationContainer) {
+      const newPaginationContainer = this._createPaginationControls();
+      this.elements.paginationContainer.parentNode.replaceChild(
+        newPaginationContainer, 
+        this.elements.paginationContainer
+      );
+      this.elements.paginationContainer = newPaginationContainer;
+    }
+    
+    // Update loading indicator for endless scrolling
+    if (this.table.endlessScrollingOptions.enabled && this.elements.loadingIndicator) {
+      this._updateLoadingIndicator();
+    }
   }
   
   /**
@@ -348,13 +395,14 @@ class Renderer {
       case 'boolean':
         input = createDomElement('select', {
           'data-field': column.field,
+          'data-filter-type': 'boolean', // Explicitly set filter type to boolean
           class: 'filter-input filter-select'
         });
         
         const options = [
           { value: '', text: 'All' },
-          { value: 'true', text: 'Yes' },
-          { value: 'false', text: 'No' }
+          { value: 'yes', text: 'Yes' }, // Use 'yes' instead of 'true'
+          { value: 'no', text: 'No' }    // Use 'no' instead of 'false'
         ];
         
         options.forEach(option => {
@@ -493,7 +541,7 @@ class Renderer {
    */
   _createBody() {
     const tbody = createDomElement('tbody');
-    const data = this.table.filteredData;
+    const data = this.table.getDisplayData();
     
     if (data.length === 0) {
       const emptyRow = createDomElement('tr', {
@@ -589,6 +637,212 @@ class Renderer {
     }
     
     return tbody;
+  }
+  
+  /**
+   * Create pagination controls
+   * @private
+   * @returns {HTMLElement} The pagination controls container
+   */
+  _createPaginationControls() {
+    const paginationContainer = createDomElement('div', {
+      class: 'filter-table-pagination'
+    });
+    
+    // Get pagination data
+    const { currentPage, pageSize, pageSizeOptions } = this.table.paginationOptions;
+    const totalItems = this.table.filteredData.length;
+    const totalPages = Math.ceil(totalItems / pageSize);
+    
+    // Create page size selector
+    const pageSizeContainer = createDomElement('div', {
+      class: 'pagination-page-size'
+    });
+    
+    const pageSizeLabel = createDomElement('span');
+    pageSizeLabel.textContent = 'Rows per page: ';
+    pageSizeContainer.appendChild(pageSizeLabel);
+    
+    const pageSizeSelect = createDomElement('select', {
+      class: 'page-size-select'
+    });
+    
+    pageSizeOptions.forEach(size => {
+      const option = createDomElement('option', {
+        value: size,
+        selected: size === pageSize ? 'selected' : null
+      });
+      option.textContent = size;
+      pageSizeSelect.appendChild(option);
+    });
+    
+    // Add event listener for page size change
+    pageSizeSelect.addEventListener('change', () => {
+      const newPageSize = parseInt(pageSizeSelect.value, 10);
+      this.table.changePageSize(newPageSize);
+    });
+    
+    pageSizeContainer.appendChild(pageSizeSelect);
+    paginationContainer.appendChild(pageSizeContainer);
+    
+    // Create page navigation
+    const pageNavContainer = createDomElement('div', {
+      class: 'pagination-navigation'
+    });
+    
+    // Add page info
+    const pageInfo = createDomElement('span', {
+      class: 'pagination-info'
+    });
+    
+    const startItem = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+    const endItem = Math.min(currentPage * pageSize, totalItems);
+    pageInfo.textContent = `${startItem}-${endItem} of ${totalItems}`;
+    pageNavContainer.appendChild(pageInfo);
+    
+    // Add navigation buttons
+    const firstPageBtn = this._createPaginationButton('«', 1, currentPage <= 1);
+    const prevPageBtn = this._createPaginationButton('‹', currentPage - 1, currentPage <= 1);
+    const nextPageBtn = this._createPaginationButton('›', currentPage + 1, currentPage >= totalPages);
+    const lastPageBtn = this._createPaginationButton('»', totalPages, currentPage >= totalPages);
+    
+    pageNavContainer.appendChild(firstPageBtn);
+    pageNavContainer.appendChild(prevPageBtn);
+    
+    // Add page number buttons
+    const maxPageButtons = 5; // Maximum number of page buttons to show
+    let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+    let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
+    
+    // Adjust start page if we're near the end
+    if (endPage - startPage < maxPageButtons - 1) {
+      startPage = Math.max(1, endPage - maxPageButtons + 1);
+    }
+    
+    // Add ellipsis if needed
+    if (startPage > 1) {
+      const ellipsis = createDomElement('span', {
+        class: 'pagination-ellipsis'
+      });
+      ellipsis.textContent = '...';
+      pageNavContainer.appendChild(ellipsis);
+    }
+    
+    // Add page number buttons
+    for (let i = startPage; i <= endPage; i++) {
+      const pageBtn = this._createPaginationButton(i, i, false, i === currentPage);
+      pageNavContainer.appendChild(pageBtn);
+    }
+    
+    // Add ellipsis if needed
+    if (endPage < totalPages) {
+      const ellipsis = createDomElement('span', {
+        class: 'pagination-ellipsis'
+      });
+      ellipsis.textContent = '...';
+      pageNavContainer.appendChild(ellipsis);
+    }
+    
+    pageNavContainer.appendChild(nextPageBtn);
+    pageNavContainer.appendChild(lastPageBtn);
+    
+    paginationContainer.appendChild(pageNavContainer);
+    
+    return paginationContainer;
+  }
+  
+  /**
+   * Create a pagination button
+   * @private
+   * @param {string|number} text - Button text
+   * @param {number} page - Page number to navigate to
+   * @param {boolean} disabled - Whether the button is disabled
+   * @param {boolean} active - Whether the button is active (current page)
+   * @returns {HTMLElement} The pagination button
+   */
+  _createPaginationButton(text, page, disabled = false, active = false) {
+    console.log(`Creating pagination button: text=${text}, page=${page}, disabled=${disabled}, active=${active}`);
+    
+    const button = createDomElement('button', {
+      class: `pagination-button${active ? ' active' : ''}`,
+      ...(disabled ? { disabled: true } : {}),
+      'data-page': page
+    });
+    
+    button.textContent = text;
+    
+    // Add event listener for page change
+    if (!disabled && !active) {
+      button.addEventListener('click', (event) => {
+        console.log(`Pagination button clicked: page=${page}`);
+        this.table.goToPage(page);
+      });
+    }
+    
+    return button;
+  }
+  
+  /**
+   * Create loading indicator for endless scrolling
+   * @private
+   * @returns {HTMLElement} The loading indicator
+   */
+  _createLoadingIndicator() {
+    const loadingIndicator = createDomElement('div', {
+      class: 'filter-table-loading'
+    });
+    
+    // Create spinner
+    const spinner = createDomElement('div', {
+      class: 'loading-spinner'
+    });
+    
+    // Create loading text
+    const loadingText = createDomElement('span', {
+      class: 'loading-text'
+    });
+    
+    // Update loading indicator state
+    this._updateLoadingIndicatorState(loadingIndicator, spinner, loadingText);
+    
+    loadingIndicator.appendChild(spinner);
+    loadingIndicator.appendChild(loadingText);
+    
+    return loadingIndicator;
+  }
+  
+  /**
+   * Update loading indicator state
+   * @private
+   * @param {HTMLElement} indicator - Loading indicator element
+   * @param {HTMLElement} spinner - Spinner element
+   * @param {HTMLElement} text - Loading text element
+   */
+  _updateLoadingIndicatorState(indicator, spinner, text) {
+    const { loadedItems } = this.table.endlessScrollingOptions;
+    const totalItems = this.table.filteredData.length;
+    
+    // Completely hide the loading indicator when all items are loaded
+    if (loadedItems >= totalItems) {
+      indicator.style.display = 'none';
+    } else {
+      indicator.style.display = 'flex';
+      spinner.style.display = 'inline-block';
+      text.textContent = `Showing ${loadedItems} of ${totalItems} items`;
+    }
+  }
+  
+  /**
+   * Update loading indicator
+   * @private
+   */
+  _updateLoadingIndicator() {
+    if (!this.elements.loadingIndicator) return;
+    
+    const spinner = this.elements.loadingIndicator.querySelector('.loading-spinner');
+    const text = this.elements.loadingIndicator.querySelector('.loading-text');
+    
+    this._updateLoadingIndicatorState(this.elements.loadingIndicator, spinner, text);
   }
 }
 

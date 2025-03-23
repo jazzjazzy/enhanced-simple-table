@@ -1,5 +1,5 @@
 /**
- * FilterTable - A highly customizable table library with advanced filtering capabilities
+ * Enhanced Simple Table - A highly customizable table library with advanced filtering capabilities
  * @module filter-table
  */
 
@@ -8,18 +8,27 @@ import * as DataTypes from './utils/data-types.js';
 import * as FilterTypes from './filters/filter-types.js';
 
 /**
- * Main FilterTable class - entry point for the library
+ * Main EnhancedSimpleTable class - entry point for the library
  * @class
  */
-class FilterTable {
+class EnhancedSimpleTable {
   /**
-   * Create a new FilterTable instance
+   * Create a new EnhancedSimpleTable instance
    * @param {string|HTMLElement} container - CSS selector or DOM element to render the table in
    * @param {Object} options - Configuration options
    * @param {Array} options.data - Array of data objects to display in the table
    * @param {Array} options.columns - Column definitions
    * @param {Object} [options.filters] - Initial filter configuration
    * @param {Object} [options.pagination] - Pagination options
+   * @param {Object} [options.pagination.enabled] - Whether pagination is enabled
+   * @param {number} [options.pagination.pageSize] - Number of rows per page
+   * @param {number} [options.pagination.currentPage] - Current page number
+   * @param {Array} [options.pagination.pageSizeOptions] - Available page size options
+   * @param {Object} [options.endlessScrolling] - Endless scrolling options
+   * @param {boolean} [options.endlessScrolling.enabled] - Whether endless scrolling is enabled
+   * @param {number} [options.endlessScrolling.itemsPerLoad] - Number of items to load per scroll
+   * @param {number} [options.endlessScrolling.loadMoreThreshold] - Threshold in pixels to trigger loading more items
+   * @param {number} [options.endlessScrolling.initialItems] - Initial number of items to display
    * @param {Object} [options.sorting] - Sorting options
    * @param {Object} [options.styling] - Styling options
    */
@@ -30,7 +39,7 @@ class FilterTable {
 
   /**
    * Refresh the table with current data and filters
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   refresh() {
     this.table.refresh();
@@ -43,7 +52,7 @@ class FilterTable {
    * @param {string} filterConfig.column - Column field to filter on
    * @param {string} filterConfig.type - Type of filter to apply
    * @param {*} filterConfig.value - Filter value
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   addFilter(filterConfig) {
     this.table.addFilter(filterConfig);
@@ -53,7 +62,7 @@ class FilterTable {
   /**
    * Remove a filter from the table
    * @param {string} column - Column field to remove filter from
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   removeFilter(column) {
     this.table.removeFilter(column);
@@ -62,7 +71,7 @@ class FilterTable {
 
   /**
    * Clear all filters from the table
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   clearFilters() {
     this.table.clearFilters();
@@ -74,7 +83,7 @@ class FilterTable {
    * @param {Object} groupConfig - Filter group configuration
    * @param {string} groupConfig.operator - Logical operator ('AND' or 'OR')
    * @param {Array} groupConfig.filters - Array of filter configurations
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   addFilterGroup(groupConfig) {
     this.table.addFilterGroup(groupConfig);
@@ -95,7 +104,7 @@ class FilterTable {
   /**
    * Apply a previously saved filter or filter configuration
    * @param {string|Object} filterNameOrConfig - Name of saved filter or filter configuration object
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   applyFilters(filterNameOrConfig) {
     let filters;
@@ -124,7 +133,7 @@ class FilterTable {
   /**
    * Update the table data
    * @param {Array} data - New data array
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   setData(data) {
     this.table.setData(data);
@@ -150,7 +159,7 @@ class FilterTable {
   /**
    * Set table columns configuration
    * @param {Array} columns - Column configuration array
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   setColumns(columns) {
     this.table.setColumns(columns);
@@ -163,6 +172,63 @@ class FilterTable {
    */
   getColumns() {
     return this.table.getColumns();
+  }
+
+  /**
+   * Enable or disable pagination
+   * @param {boolean} enabled - Whether pagination should be enabled
+   * @param {Object} options - Pagination options
+   * @param {number} [options.pageSize] - Number of rows per page
+   * @param {Array} [options.pageSizeOptions] - Available page size options
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
+   */
+  setPagination(enabled, options = {}) {
+    this.table.setPagination(enabled, options);
+    return this;
+  }
+
+  /**
+   * Change the current page
+   * @param {number} page - Page number to change to
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
+   */
+  goToPage(page) {
+    this.table.goToPage(page);
+    return this;
+  }
+
+  /**
+   * Change the page size
+   * @param {number} pageSize - New page size
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
+   */
+  changePageSize(pageSize) {
+    this.table.changePageSize(pageSize);
+    return this;
+  }
+
+  /**
+   * Enable or disable endless scrolling
+   * @param {boolean} enabled - Whether endless scrolling should be enabled
+   * @param {Object} options - Endless scrolling options
+   * @param {number} [options.itemsPerLoad] - Number of items to load per scroll
+   * @param {number} [options.loadMoreThreshold] - Threshold in pixels to trigger loading more items
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
+   */
+  setEndlessScrolling(enabled, options = {}) {
+    this.table.setEndlessScrolling(enabled, options);
+    return this;
+  }
+
+  /**
+   * Set the display mode (default, pagination, or endless scrolling)
+   * @param {string} mode - Display mode ('default', 'pagination', or 'endlessScrolling')
+   * @param {Object} options - Options for the selected mode
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
+   */
+  setDisplayMode(mode, options = {}) {
+    this.table.setDisplayMode(mode, options);
+    return this;
   }
 
   /**
@@ -186,7 +252,7 @@ class FilterTable {
   /**
    * Change the current theme
    * @param {string} themeName - Name of the theme to switch to
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   setTheme(themeName) {
     this.table.renderer.changeTheme(themeName);
@@ -204,7 +270,7 @@ class FilterTable {
   /**
    * Load a custom stylesheet
    * @param {string} stylesheetPath - Path to the custom stylesheet
-   * @returns {FilterTable} The FilterTable instance for chaining
+   * @returns {EnhancedSimpleTable} The EnhancedSimpleTable instance for chaining
    */
   loadCustomStylesheet(stylesheetPath) {
     this.table.renderer.loadCustomStylesheet(stylesheetPath);
@@ -221,10 +287,10 @@ class FilterTable {
 }
 
 // Export constants and types
-FilterTable.FilterTypes = FilterTypes;
-FilterTable.DataTypes = DataTypes;
+EnhancedSimpleTable.FilterTypes = FilterTypes;
+EnhancedSimpleTable.DataTypes = DataTypes;
 
 // Re-export formatCurrency function for direct import
 export const { formatCurrency } = DataTypes;
 
-export default FilterTable;
+export default EnhancedSimpleTable;

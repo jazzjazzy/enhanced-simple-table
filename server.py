@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple HTTP server for testing the FilterTable library.
+Simple HTTP server for testing the Enhanced Simple Table library.
 Run this script from the filter-table directory to serve the files.
 """
 
@@ -38,6 +38,7 @@ Handler.extensions_map.update({
 # Check if server is already running on the specified port
 if is_port_in_use(PORT):
     print(f"Server is already running at http://localhost:{PORT}")
+    sys.exit(0)  # Exit with success code if server is already running
 else:
     # Create the server
     with socketserver.TCPServer(("", PORT), Handler) as httpd:

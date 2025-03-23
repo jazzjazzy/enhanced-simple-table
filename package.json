@@ -21,12 +21,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jazzjazzy/simple-filter.git"
+    "url": "git+https://github.com/jazzjazzy/enhanced-simple-table.git"
   },
   "bugs": {
-    "url": "https://github.com/jazzjazzy/simple-filter/issues"
+    "url": "https://github.com/jazzjazzy/enhanced-simple-table/issues"
   },
-  "homepage": "https://github.com/jazzjazzy/simple-filter#readme",
+  "homepage": "https://github.com/jazzjazzy/enhanced-simple-table#readme",
   "devDependencies": {},
   "dependencies": {}
 }

@@ -1,0 +1,192 @@
+/**
+ * Pagination and endless scrolling styles for FilterTable
+ */
+
+/* Wrapper for table and pagination */
+.filter-table-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Pagination container */
+.filter-table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Page size selector */
+.pagination-page-size {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-page-size span {
+  margin-right: 8px;
+}
+
+.page-size-select {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+/* Page navigation */
+.pagination-navigation {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-info {
+  margin-right: 15px;
+}
+
+.pagination-button {
+  min-width: 32px;
+  height: 32px;
+  margin: 0 2px;
+  padding: 0 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #e6e6e6;
+  border-color: #999;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination-ellipsis {
+  margin: 0 5px;
+}
+
+/* Loading indicator for endless scrolling */
+.filter-table-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  margin-top: 10px;
+  text-align: center;
+  color: #666;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  font-size: 14px;
+}
+
+/* Style for when all items are loaded */
+.filter-table-loading.all-loaded {
+  background-color: transparent;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
+.filter-table-loading.all-loaded .loading-text {
+  font-style: italic;
+  color: #888;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Theme-specific styles */
+.theme-dark .filter-table-pagination {
+  background-color: #333;
+  color: #fff;
+}
+
+.theme-dark .page-size-select,
+.theme-dark .pagination-button {
+  background-color: #444;
+  border-color: #555;
+  color: #fff;
+}
+
+.theme-dark .pagination-button:hover:not(:disabled) {
+  background-color: #555;
+}
+
+.theme-dark .pagination-button.active {
+  background-color: #0066cc;
+  border-color: #0066cc;
+}
+
+.theme-blue .filter-table-pagination {
+  background-color: #e6f2ff;
+}
+
+.theme-blue .pagination-button.active {
+  background-color: #0066cc;
+  border-color: #0066cc;
+}
+
+.theme-minimal .filter-table-pagination {
+  background-color: transparent;
+  border: none;
+  padding: 5px 0;
+}
+
+.theme-minimal .pagination-button {
+  border: none;
+  background-color: transparent;
+}
+
+.theme-minimal .pagination-button.active {
+  font-weight: bold;
+  color: #007bff;
+  background-color: transparent;
+}
+
+.theme-high-contrast .filter-table-pagination {
+  background-color: #000;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.theme-high-contrast .page-size-select,
+.theme-high-contrast .pagination-button {
+  background-color: #000;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.theme-high-contrast .pagination-button.active {
+  background-color: #fff;
+  color: #000;
+}

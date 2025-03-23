@@ -1,4 +1,4 @@
-# FilterTable
+# Enhanced Simple Table
 
 A highly customizable table library with advanced filtering capabilities for web applications.
 
@@ -32,6 +32,10 @@ A highly customizable table library with advanced filtering capabilities for web
 - Filter suggestions
 - Progressive disclosure interface
 - Filter visualization
+- Data display options:
+  - Default (all data)
+  - Pagination with customizable page size
+  - Endless scrolling for large datasets
 - Interactive links:
   - Row-level links for navigation to detail pages
   - Column-specific links for related resources
@@ -55,7 +59,7 @@ npm install filter-table
 
 <script>
   // Import the library
-  import FilterTable from 'filter-table';
+  import EnhancedSimpleTable from 'filter-table';
   
   // Sample data
   const data = [
@@ -65,7 +69,7 @@ npm install filter-table
   ];
   
   // Initialize the table
-  const table = new FilterTable('#table-container', {
+  const table = new EnhancedSimpleTable('#table-container', {
     data: data,
     columns: [
       { field: 'id', title: 'ID', filterable: true },
@@ -105,11 +109,65 @@ const savedFilter = table.saveCurrentFilters('my-favorite-view');
 table.applyFilters(savedFilter);
 ```
 
+## Pagination and Endless Scrolling
+
+```javascript
+// Import the library
+import EnhancedSimpleTable from 'filter-table';
+
+// Initialize the table with pagination
+const table = new EnhancedSimpleTable('#table-container', {
+  data: data,
+  columns: columns,
+  pagination: {
+    enabled: true,
+    pageSize: 10,
+    currentPage: 1,
+    pageSizeOptions: [10, 25, 50, 100]
+  }
+});
+
+// Or initialize with endless scrolling
+const tableWithEndlessScrolling = new EnhancedSimpleTable('#table-container-2', {
+  data: data,
+  columns: columns,
+  endlessScrolling: {
+    enabled: true,
+    itemsPerLoad: 20,
+    loadMoreThreshold: 200,
+    initialItems: 20
+  }
+});
+
+// Change display mode after initialization
+table.setDisplayMode('pagination', { pageSize: 25 });
+table.setDisplayMode('endlessScrolling', { itemsPerLoad: 30 });
+table.setDisplayMode('default'); // Show all data
+
+// Pagination controls
+table.goToPage(3); // Go to page 3
+table.changePageSize(50); // Change page size to 50 rows
+
+// Listen for pagination events
+table.on('pageChange', (event) => {
+  console.log(`Page changed to ${event.currentPage} of ${event.totalPages}`);
+});
+
+table.on('pageSizeChange', (event) => {
+  console.log(`Page size changed to ${event.pageSize}`);
+});
+
+// Listen for endless scrolling events
+table.on('loadMore', (event) => {
+  console.log(`Loaded ${event.loadedItems} of ${event.totalItems} items`);
+});
+```
+
 ## Currency Formatting
 
 ```javascript
 // Import the library and formatCurrency function
-import FilterTable from 'filter-table';
+import EnhancedSimpleTable from 'filter-table';
 import { formatCurrency } from 'filter-table/utils/data-types.js';
 
 // Sample data with country codes
@@ -120,7 +178,7 @@ const data = [
 ];
 
 // Initialize the table with currency formatting
-const table = new FilterTable('#table-container', {
+const table = new EnhancedSimpleTable('#table-container', {
   data: data,
   columns: [
     { field: 'id', title: 'ID' },
@@ -144,7 +202,7 @@ For detailed currency formatting documentation, see the [Currency Formatting Gui
 
 ```javascript
 // Import the library
-import FilterTable from 'filter-table';
+import EnhancedSimpleTable from 'filter-table';
 
 // Sample data
 const data = [
@@ -154,7 +212,7 @@ const data = [
 ];
 
 // Initialize the table with links
-const table = new FilterTable('#table-container', {
+const table = new EnhancedSimpleTable('#table-container', {
   data: data,
   // Row-level link - makes the entire row clickable
   rowLink: 'user.html?id={id}',
@@ -172,7 +230,7 @@ const table = new FilterTable('#table-container', {
 });
 
 // Dynamic links using functions
-const tableWithDynamicLinks = new FilterTable('#table-container-2', {
+const tableWithDynamicLinks = new EnhancedSimpleTable('#table-container-2', {
   data: data,
   // Dynamic row-level link function
   rowLink: (row) => `user.html?id=${row.id}&name=${encodeURIComponent(row.name)}`,
@@ -194,7 +252,7 @@ For detailed links documentation, see the [Links Guide](./docs/links-guide.md).
 
 ```javascript
 // Initialize with a theme
-const table = new FilterTable('#table-container', {
+const table = new EnhancedSimpleTable('#table-container', {
   data: data,
   columns: columns,
   styling: {
@@ -226,7 +284,14 @@ For full documentation, see the [docs](./docs) directory or visit our [documenta
 
 ## Examples
 
-Check out the [examples](./examples) directory for more usage examples.
+Check out the [examples](./examples) directory for more usage examples:
+
+- [Basic Example](./examples/basic-example.html)
+- [Advanced Example](./examples/advanced-example.html)
+- [Currency Example](./examples/currency-example.html)
+- [Links Example](./examples/links-example.html)
+- [Styling Example](./examples/styling-example.html)
+- [Pagination Example](./examples/pagination-example.html)
 
 ## License
 
