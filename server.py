@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple HTTP server for testing the FilterTable library.
+Simple HTTP server for testing the Enhanced Simple Table library.
 Run this script from the filter-table directory to serve the files.
 """
 
