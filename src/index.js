@@ -7,11 +7,6 @@ import Table from './core/table.js';
 import * as DataTypes from './utils/data-types.js';
 import * as FilterTypes from './filters/filter-types.js';
 
-// Import base styles
-import './styles/base.css';
-// Import pagination styles
-import './styles/pagination.css';
-
 /**
  * Main FilterTable class - entry point for the library
  * @class
