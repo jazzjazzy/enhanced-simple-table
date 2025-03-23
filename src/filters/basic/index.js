@@ -291,26 +291,34 @@ export function boolean(value, params, row) {
       targetBoolean = false;
     } else {
       // If it's not a recognized boolean string, use the value as is
-      targetBoolean = params.value;
+      targetBoolean = Boolean(params.value);
     }
   } else if (typeof params.value === 'number') {
     targetBoolean = params.value !== 0;
   } else {
     // If it's already a boolean or other type, use it directly
-    targetBoolean = params.value;
+    targetBoolean = Boolean(params.value);
   }
   
-  // Convert cell value to boolean if needed
-  let cellBoolean = value;
-  if (typeof cellBoolean === 'string') {
-    const lowerValue = cellBoolean.toLowerCase();
+  // For cell value, we need to handle both actual booleans and string representations
+  let cellBoolean;
+  
+  // If it's already a boolean, use it directly
+  if (typeof value === 'boolean') {
+    cellBoolean = value;
+  } else if (typeof value === 'string') {
+    const lowerValue = value.toLowerCase();
     if (lowerValue === 'true' || lowerValue === 'yes' || lowerValue === '1') {
       cellBoolean = true;
     } else if (lowerValue === 'false' || lowerValue === 'no' || lowerValue === '0') {
       cellBoolean = false;
+    } else {
+      cellBoolean = Boolean(value);
     }
-  } else if (typeof cellBoolean === 'number') {
-    cellBoolean = cellBoolean !== 0;
+  } else if (typeof value === 'number') {
+    cellBoolean = value !== 0;
+  } else {
+    cellBoolean = Boolean(value);
   }
   
   // Debug logging
