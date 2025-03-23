@@ -171,24 +171,31 @@ class EventManager {
         // Otherwise, update the range filter
         this._updateRangeFilter(field, rangeType, parseFloat(value));
       }
-    } else if (input.tagName === 'SELECT') {
-      // Handle select inputs
-      const value = input.value;
-      
-      if (value === '') {
-        // If "All" is selected, remove the filter
-        this.table.removeFilter(field);
-      } else {
-        // Otherwise, add a filter with the selected value
-        const filterType = input.classList.contains('filter-boolean') ? 'boolean' : 'equals';
-        const filterValue = input.classList.contains('filter-boolean') ? value === 'true' : value;
+      } else if (input.tagName === 'SELECT') {
+        // Handle select inputs
+        const value = input.value;
         
-        this.table.addFilter({
-          column: field,
-          type: filterType,
-          value: filterValue
-        });
-      }
+        if (value === '') {
+          // If "All" is selected, remove the filter
+          this.table.removeFilter(field);
+        } else {
+          // Get the filter type from the data attribute or default to 'equals'
+          const filterType = input.getAttribute('data-filter-type') || 'equals';
+          
+          // Add the filter with the appropriate type and value
+          this.table.addFilter({
+            column: field,
+            type: filterType,
+            value: value
+          });
+          
+          // Log the filter for debugging
+          console.log('Adding filter:', {
+            column: field,
+            type: filterType,
+            value: value
+          });
+        }
     } else {
       // Handle text inputs
       const value = input.value.trim();

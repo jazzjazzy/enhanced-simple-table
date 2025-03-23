@@ -395,13 +395,14 @@ class Renderer {
       case 'boolean':
         input = createDomElement('select', {
           'data-field': column.field,
+          'data-filter-type': 'boolean', // Explicitly set filter type to boolean
           class: 'filter-input filter-select'
         });
         
         const options = [
           { value: '', text: 'All' },
-          { value: 'true', text: 'Yes' },
-          { value: 'false', text: 'No' }
+          { value: 'yes', text: 'Yes' }, // Use 'yes' instead of 'true'
+          { value: 'no', text: 'No' }    // Use 'no' instead of 'false'
         ];
         
         options.forEach(option => {
