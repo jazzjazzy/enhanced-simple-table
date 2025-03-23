@@ -271,7 +271,7 @@ export function dateRange(value, params) {
  * Boolean filter - checks if a boolean value matches the filter value
  * @param {*} value - Cell value to check
  * @param {Object} params - Filter parameters
- * @param {boolean} params.value - Boolean value to compare with
+ * @param {boolean|string} params.value - Boolean value to compare with
  * @returns {boolean} Whether the value passes the filter
  */
 export function boolean(value, params) {
@@ -279,19 +279,33 @@ export function boolean(value, params) {
     return false;
   }
   
+  let boolValue = value;
   // Convert string representations to boolean
-  if (typeof value === 'string') {
-    const lowerValue = value.toLowerCase();
+  if (typeof boolValue === 'string') {
+    const lowerValue = boolValue.toLowerCase();
     if (lowerValue === 'true' || lowerValue === 'yes' || lowerValue === '1') {
-      value = true;
+      boolValue = true;
     } else if (lowerValue === 'false' || lowerValue === 'no' || lowerValue === '0') {
-      value = false;
+      boolValue = false;
     }
-  } else if (typeof value === 'number') {
-    value = value !== 0;
+  } else if (typeof boolValue === 'number') {
+    boolValue = boolValue !== 0;
   }
   
-  return value === params.value;
+  let paramValue = params.value;
+  // Also convert params.value if it's a string
+  if (typeof paramValue === 'string') {
+    const lowerParamValue = paramValue.toLowerCase();
+    if (lowerParamValue === 'true' || lowerParamValue === 'yes' || lowerParamValue === '1') {
+      paramValue = true;
+    } else if (lowerParamValue === 'false' || lowerParamValue === 'no' || lowerParamValue === '0') {
+      paramValue = false;
+    }
+  } else if (typeof paramValue === 'number') {
+    paramValue = paramValue !== 0;
+  }
+  
+  return boolValue === paramValue;
 }
 
 /**
