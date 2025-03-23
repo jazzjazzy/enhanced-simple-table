@@ -8,6 +8,13 @@ import http.server
 import socketserver
 import os
 import sys
+import socket
+
+# Function to check if a port is already in use
+def is_port_in_use(port):
+    """Check if the specified port is already in use."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) == 0
 
 # Default port
 PORT = 8000
@@ -28,13 +35,17 @@ Handler.extensions_map.update({
     '.html': 'text/html',
 })
 
-# Create the server
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print(f"Serving at http://localhost:{PORT}")
-    print("Press Ctrl+C to stop the server")
-    
-    # Serve until interrupted
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        print("\nServer stopped")
+# Check if server is already running on the specified port
+if is_port_in_use(PORT):
+    print(f"Server is already running at http://localhost:{PORT}")
+else:
+    # Create the server
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print(f"Serving at http://localhost:{PORT}")
+        print("Press Ctrl+C to stop the server")
+        
+        # Serve until interrupted
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("\nServer stopped")

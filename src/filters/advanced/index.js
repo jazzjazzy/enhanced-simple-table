@@ -403,3 +403,8 @@ function soundex(s) {
   });
   
   // Keep first letter and first 3 codes
+  const result = firstLetter + filtered.slice(1, 4).join('');
+  
+  // Pad with zeros if needed
+  return (result + '000').slice(0, 4);
+}
