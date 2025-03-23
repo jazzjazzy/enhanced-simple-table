@@ -49,7 +49,7 @@ A highly customizable table library with advanced filtering capabilities for web
 ## Installation
 
 ```bash
-npm install filter-table
+npm install @jazzjazzy/enhanced-simple-table
 ```
 
 ## Basic Usage
