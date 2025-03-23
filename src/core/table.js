@@ -44,6 +44,28 @@ class Table {
       this._autoDetectColumnTypes();
     }
     
+    // Initialize pagination settings
+    this.paginationOptions = {
+      enabled: options.pagination?.enabled || false,
+      pageSize: options.pagination?.pageSize || 10,
+      currentPage: options.pagination?.currentPage || 1,
+      pageSizeOptions: options.pagination?.pageSizeOptions || [10, 25, 50, 100]
+    };
+    
+    // Initialize endless scrolling settings
+    this.endlessScrollingOptions = {
+      enabled: options.endlessScrolling?.enabled || false,
+      itemsPerLoad: options.endlessScrolling?.itemsPerLoad || 20,
+      loadMoreThreshold: options.endlessScrolling?.loadMoreThreshold || 200,
+      loadedItems: options.endlessScrolling?.initialItems || 20
+    };
+    
+    // Ensure only one display mode is enabled
+    if (this.paginationOptions.enabled && this.endlessScrollingOptions.enabled) {
+      console.warn('Both pagination and endless scrolling are enabled. Defaulting to pagination.');
+      this.endlessScrollingOptions.enabled = false;
+    }
+    
     // Initialize components
     this.filterManager = new FilterManager(this);
     this.renderer = new Renderer(this);
@@ -59,6 +81,11 @@ class Table {
     
     // Set up debounced refresh
     this._debouncedRefresh = debounce(() => this.refresh(), 150);
+    
+    // Set up endless scrolling if enabled
+    if (this.endlessScrollingOptions.enabled) {
+      this._setupEndlessScrolling();
+    }
   }
   
   /**
@@ -108,6 +135,16 @@ class Table {
     
     // Apply sorting if active
     this._applySorting();
+    
+    // Reset pagination to first page when data changes
+    if (this.paginationOptions.enabled) {
+      this.paginationOptions.currentPage = 1;
+    }
+    
+    // Reset endless scrolling when data changes
+    if (this.endlessScrollingOptions.enabled) {
+      this.endlessScrollingOptions.loadedItems = this.endlessScrollingOptions.itemsPerLoad;
+    }
     
     // Re-render with new data
     this.renderer.update();
@@ -196,6 +233,237 @@ class Table {
       }
       return 0;
     });
+  }
+  
+  /**
+   * Get the data to display based on pagination or endless scrolling settings
+   * @returns {Array} Data to display
+   */
+  getDisplayData() {
+    if (this.paginationOptions.enabled) {
+      // Calculate pagination slice
+      const startIndex = (this.paginationOptions.currentPage - 1) * this.paginationOptions.pageSize;
+      const endIndex = startIndex + this.paginationOptions.pageSize;
+      return this.filteredData.slice(startIndex, endIndex);
+    } else if (this.endlessScrollingOptions.enabled) {
+      // Return data up to the currently loaded items
+      return this.filteredData.slice(0, this.endlessScrollingOptions.loadedItems);
+    } else {
+      // Return all filtered data if no pagination or endless scrolling
+      return this.filteredData;
+    }
+  }
+  
+  /**
+   * Set up endless scrolling event listeners
+   * @private
+   */
+  _setupEndlessScrolling() {
+    if (!this.endlessScrollingOptions.enabled) return;
+    
+    // Debounce scroll handler for better performance
+    const scrollHandler = debounce(() => {
+      if (!this.endlessScrollingOptions.enabled) return;
+      
+      const tableBottom = this.renderer.elements.table.getBoundingClientRect().bottom;
+      const viewportBottom = window.innerHeight;
+      
+      // Check if we're close to the bottom of the table
+      if (tableBottom - viewportBottom < this.endlessScrollingOptions.loadMoreThreshold) {
+        // Check if we have more items to load
+        if (this.endlessScrollingOptions.loadedItems < this.filteredData.length) {
+          // Load more items
+          this.endlessScrollingOptions.loadedItems += this.endlessScrollingOptions.itemsPerLoad;
+          
+          // Cap at the total number of items
+          if (this.endlessScrollingOptions.loadedItems > this.filteredData.length) {
+            this.endlessScrollingOptions.loadedItems = this.filteredData.length;
+          }
+          
+          // Update the table
+          this.renderer.update();
+          
+          // Trigger load more event
+          this.eventManager.trigger('loadMore', {
+            loadedItems: this.endlessScrollingOptions.loadedItems,
+            totalItems: this.filteredData.length
+          });
+        }
+      }
+    }, 100);
+    
+    // Add scroll event listener
+    window.addEventListener('scroll', scrollHandler);
+    
+    // Store reference to remove later
+    this._scrollHandler = scrollHandler;
+  }
+  
+  /**
+   * Change the current page
+   * @param {number} page - Page number to change to
+   */
+  goToPage(page) {
+    if (!this.paginationOptions.enabled) return;
+    
+    const totalPages = Math.ceil(this.filteredData.length / this.paginationOptions.pageSize);
+    
+    // Validate page number
+    if (page < 1) {
+      page = 1;
+    } else if (page > totalPages) {
+      page = totalPages;
+    }
+    
+    // Update current page
+    this.paginationOptions.currentPage = page;
+    
+    // Update the table
+    this.renderer.update();
+    
+    // Trigger page change event
+    this.eventManager.trigger('pageChange', {
+      currentPage: page,
+      totalPages: totalPages,
+      pageSize: this.paginationOptions.pageSize
+    });
+  }
+  
+  /**
+   * Change the page size
+   * @param {number} pageSize - New page size
+   */
+  changePageSize(pageSize) {
+    if (!this.paginationOptions.enabled) return;
+    
+    // Validate page size
+    if (!this.paginationOptions.pageSizeOptions.includes(pageSize)) {
+      console.warn(`Invalid page size: ${pageSize}. Using default.`);
+      pageSize = this.paginationOptions.pageSizeOptions[0];
+    }
+    
+    // Calculate current position to maintain approximate scroll position
+    const currentPosition = (this.paginationOptions.currentPage - 1) * this.paginationOptions.pageSize;
+    
+    // Update page size
+    this.paginationOptions.pageSize = pageSize;
+    
+    // Calculate new page number to maintain approximate position
+    const newPage = Math.floor(currentPosition / pageSize) + 1;
+    this.paginationOptions.currentPage = newPage;
+    
+    // Update the table
+    this.renderer.update();
+    
+    // Trigger page size change event
+    this.eventManager.trigger('pageSizeChange', {
+      pageSize: pageSize,
+      currentPage: newPage,
+      totalPages: Math.ceil(this.filteredData.length / pageSize)
+    });
+  }
+  
+  /**
+   * Enable or disable pagination
+   * @param {boolean} enabled - Whether pagination should be enabled
+   * @param {Object} options - Pagination options
+   */
+  setPagination(enabled, options = {}) {
+    // Update pagination settings
+    this.paginationOptions.enabled = enabled;
+    
+    if (options.pageSize) {
+      this.paginationOptions.pageSize = options.pageSize;
+    }
+    
+    if (options.pageSizeOptions) {
+      this.paginationOptions.pageSizeOptions = options.pageSizeOptions;
+    }
+    
+    // Reset to first page
+    this.paginationOptions.currentPage = 1;
+    
+    // Disable endless scrolling if pagination is enabled
+    if (enabled) {
+      this.endlessScrollingOptions.enabled = false;
+      
+      // Remove scroll handler if it exists
+      if (this._scrollHandler) {
+        window.removeEventListener('scroll', this._scrollHandler);
+      }
+    }
+    
+    // Re-render the table
+    this.render();
+  }
+  
+  /**
+   * Enable or disable endless scrolling
+   * @param {boolean} enabled - Whether endless scrolling should be enabled
+   * @param {Object} options - Endless scrolling options
+   */
+  setEndlessScrolling(enabled, options = {}) {
+    // Update endless scrolling settings
+    this.endlessScrollingOptions.enabled = enabled;
+    
+    if (options.itemsPerLoad) {
+      this.endlessScrollingOptions.itemsPerLoad = options.itemsPerLoad;
+    }
+    
+    if (options.loadMoreThreshold) {
+      this.endlessScrollingOptions.loadMoreThreshold = options.loadMoreThreshold;
+    }
+    
+    // Reset loaded items
+    this.endlessScrollingOptions.loadedItems = this.endlessScrollingOptions.itemsPerLoad;
+    
+    // Disable pagination if endless scrolling is enabled
+    if (enabled) {
+      this.paginationOptions.enabled = false;
+      
+      // Set up scroll handler
+      this._setupEndlessScrolling();
+    } else {
+      // Remove scroll handler if it exists
+      if (this._scrollHandler) {
+        window.removeEventListener('scroll', this._scrollHandler);
+      }
+    }
+    
+    // Re-render the table
+    this.render();
+  }
+  
+  /**
+   * Set the display mode (default, pagination, or endless scrolling)
+   * @param {string} mode - Display mode ('default', 'pagination', or 'endlessScrolling')
+   * @param {Object} options - Options for the selected mode
+   */
+  setDisplayMode(mode, options = {}) {
+    switch (mode) {
+      case 'pagination':
+        this.setPagination(true, options);
+        break;
+        
+      case 'endlessScrolling':
+        this.setEndlessScrolling(true, options);
+        break;
+        
+      case 'default':
+      default:
+        // Disable both pagination and endless scrolling
+        this.paginationOptions.enabled = false;
+        this.endlessScrollingOptions.enabled = false;
+        
+        // Remove scroll handler if it exists
+        if (this._scrollHandler) {
+          window.removeEventListener('scroll', this._scrollHandler);
+        }
+        
+        // Re-render the table
+        this.render();
+        break;
+    }
   }
   
   /**
@@ -321,6 +589,11 @@ class Table {
     this.eventManager.detachEvents();
     this.renderer.clear();
     this.filterManager.clearFilters();
+    
+    // Remove scroll handler if it exists
+    if (this._scrollHandler) {
+      window.removeEventListener('scroll', this._scrollHandler);
+    }
     
     // Clear references
     this.data = null;

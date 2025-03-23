@@ -7,6 +7,11 @@ import Table from './core/table.js';
 import * as DataTypes from './utils/data-types.js';
 import * as FilterTypes from './filters/filter-types.js';
 
+// Import base styles
+import './styles/base.css';
+// Import pagination styles
+import './styles/pagination.css';
+
 /**
  * Main FilterTable class - entry point for the library
  * @class
@@ -20,6 +25,15 @@ class FilterTable {
    * @param {Array} options.columns - Column definitions
    * @param {Object} [options.filters] - Initial filter configuration
    * @param {Object} [options.pagination] - Pagination options
+   * @param {Object} [options.pagination.enabled] - Whether pagination is enabled
+   * @param {number} [options.pagination.pageSize] - Number of rows per page
+   * @param {number} [options.pagination.currentPage] - Current page number
+   * @param {Array} [options.pagination.pageSizeOptions] - Available page size options
+   * @param {Object} [options.endlessScrolling] - Endless scrolling options
+   * @param {boolean} [options.endlessScrolling.enabled] - Whether endless scrolling is enabled
+   * @param {number} [options.endlessScrolling.itemsPerLoad] - Number of items to load per scroll
+   * @param {number} [options.endlessScrolling.loadMoreThreshold] - Threshold in pixels to trigger loading more items
+   * @param {number} [options.endlessScrolling.initialItems] - Initial number of items to display
    * @param {Object} [options.sorting] - Sorting options
    * @param {Object} [options.styling] - Styling options
    */
@@ -163,6 +177,63 @@ class FilterTable {
    */
   getColumns() {
     return this.table.getColumns();
+  }
+
+  /**
+   * Enable or disable pagination
+   * @param {boolean} enabled - Whether pagination should be enabled
+   * @param {Object} options - Pagination options
+   * @param {number} [options.pageSize] - Number of rows per page
+   * @param {Array} [options.pageSizeOptions] - Available page size options
+   * @returns {FilterTable} The FilterTable instance for chaining
+   */
+  setPagination(enabled, options = {}) {
+    this.table.setPagination(enabled, options);
+    return this;
+  }
+
+  /**
+   * Change the current page
+   * @param {number} page - Page number to change to
+   * @returns {FilterTable} The FilterTable instance for chaining
+   */
+  goToPage(page) {
+    this.table.goToPage(page);
+    return this;
+  }
+
+  /**
+   * Change the page size
+   * @param {number} pageSize - New page size
+   * @returns {FilterTable} The FilterTable instance for chaining
+   */
+  changePageSize(pageSize) {
+    this.table.changePageSize(pageSize);
+    return this;
+  }
+
+  /**
+   * Enable or disable endless scrolling
+   * @param {boolean} enabled - Whether endless scrolling should be enabled
+   * @param {Object} options - Endless scrolling options
+   * @param {number} [options.itemsPerLoad] - Number of items to load per scroll
+   * @param {number} [options.loadMoreThreshold] - Threshold in pixels to trigger loading more items
+   * @returns {FilterTable} The FilterTable instance for chaining
+   */
+  setEndlessScrolling(enabled, options = {}) {
+    this.table.setEndlessScrolling(enabled, options);
+    return this;
+  }
+
+  /**
+   * Set the display mode (default, pagination, or endless scrolling)
+   * @param {string} mode - Display mode ('default', 'pagination', or 'endlessScrolling')
+   * @param {Object} options - Options for the selected mode
+   * @returns {FilterTable} The FilterTable instance for chaining
+   */
+  setDisplayMode(mode, options = {}) {
+    this.table.setDisplayMode(mode, options);
+    return this;
   }
 
   /**

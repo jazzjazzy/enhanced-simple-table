@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FilterTable - Pagination and Endless Scrolling Example</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      margin-bottom: 10px;
+    }
+    
+    .description {
+      margin-bottom: 20px;
+      color: #666;
+    }
+    
+    .controls {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    .control-group {
+      margin-bottom: 10px;
+    }
+    
+    .control-group label {
+      display: inline-block;
+      margin-right: 10px;
+      font-weight: 600;
+    }
+    
+    button {
+      padding: 8px 12px;
+      margin-right: 8px;
+      background-color: #4d90fe;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #357ae8;
+    }
+    
+    button.secondary {
+      background-color: #f0f0f0;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+    
+    button.secondary:hover {
+      background-color: #e0e0e0;
+    }
+    
+    .table-container {
+      margin-top: 20px;
+    }
+    
+    .example-section {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .example-section h2 {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>FilterTable - Pagination and Endless Scrolling Example</h1>
+  <p class="description">
+    This example demonstrates the pagination and endless scrolling features of FilterTable.
+    You can switch between different display modes and customize the settings.
+  </p>
+  
+  <div class="example-section">
+    <h2>Display Mode Controls</h2>
+    <div class="controls">
+      <div class="control-group">
+        <label>Display Mode:</label>
+        <button id="default-mode">Default</button>
+        <button id="pagination-mode">Pagination</button>
+        <button id="endless-mode">Endless Scrolling</button>
+      </div>
+      
+      <div class="control-group" id="pagination-controls" style="display: none;">
+        <label>Page Size:</label>
+        <select id="page-size">
+          <option value="5">5 rows</option>
+          <option value="10" selected>10 rows</option>
+          <option value="25">25 rows</option>
+          <option value="50">50 rows</option>
+        </select>
+      </div>
+      
+      <div class="control-group" id="endless-controls" style="display: none;">
+        <label>Items Per Load:</label>
+        <select id="items-per-load">
+          <option value="10">10 items</option>
+          <option value="20" selected>20 items</option>
+          <option value="30">30 items</option>
+          <option value="50">50 items</option>
+        </select>
+      </div>
+      
+      <div class="control-group">
+        <label>Theme:</label>
+        <select id="theme-selector">
+          <option value="">Default</option>
+          <option value="dark">Dark</option>
+          <option value="blue">Blue</option>
+          <option value="minimal">Minimal</option>
+          <option value="high-contrast">High Contrast</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <div class="table-container" id="table-container"></div>
+  
+  <!-- Import the FilterTable library -->
+  <script type="module">
+    import FilterTable from '../src/index.js';
+    
+    // Generate sample data
+    function generateData(count = 100) {
+      const data = [];
+      
+      for (let i = 1; i <= count; i++) {
+        data.push({
+          id: i,
+          name: `Item ${i}`,
+          category: ['Electronics', 'Clothing', 'Food', 'Books', 'Sports'][Math.floor(Math.random() * 5)],
+          price: Math.round(Math.random() * 1000) / 10,
+          inStock: Math.random() > 0.3,
+          rating: Math.round(Math.random() * 50) / 10,
+          date: new Date(Date.now() - Math.random() * 31536000000).toISOString().split('T')[0]
+        });
+      }
+      
+      return data;
+    }
+    
+    // Define columns
+    const columns = [
+      { field: 'id', title: 'ID', sortable: true },
+      { field: 'name', title: 'Name', sortable: true },
+      { field: 'category', title: 'Category', sortable: true, filterable: true },
+      { field: 'price', title: 'Price', dataType: 'currency', sortable: true, countryCode: 'US' },
+      { field: 'inStock', title: 'In Stock', dataType: 'boolean', sortable: true },
+      { field: 'rating', title: 'Rating', dataType: 'number', sortable: true },
+      { field: 'date', title: 'Date Added', dataType: 'date', sortable: true }
+    ];
+    
+    // Initialize the table
+    const table = new FilterTable('#table-container', {
+      data: generateData(200),
+      columns: columns
+    });
+    
+    // Set up event listeners for display mode controls
+    document.getElementById('default-mode').addEventListener('click', () => {
+      table.setDisplayMode('default');
+      document.getElementById('pagination-controls').style.display = 'none';
+      document.getElementById('endless-controls').style.display = 'none';
+    });
+    
+    document.getElementById('pagination-mode').addEventListener('click', () => {
+      const pageSize = parseInt(document.getElementById('page-size').value, 10);
+      table.setDisplayMode('pagination', { pageSize: pageSize });
+      document.getElementById('pagination-controls').style.display = 'block';
+      document.getElementById('endless-controls').style.display = 'none';
+    });
+    
+    document.getElementById('endless-mode').addEventListener('click', () => {
+      const itemsPerLoad = parseInt(document.getElementById('items-per-load').value, 10);
+      table.setDisplayMode('endlessScrolling', { itemsPerLoad: itemsPerLoad });
+      document.getElementById('pagination-controls').style.display = 'none';
+      document.getElementById('endless-controls').style.display = 'block';
+    });
+    
+    // Set up event listeners for pagination controls
+    document.getElementById('page-size').addEventListener('change', (e) => {
+      const pageSize = parseInt(e.target.value, 10);
+      table.changePageSize(pageSize);
+    });
+    
+    // Set up event listeners for endless scrolling controls
+    document.getElementById('items-per-load').addEventListener('change', (e) => {
+      const itemsPerLoad = parseInt(e.target.value, 10);
+      table.setEndlessScrolling(true, { itemsPerLoad: itemsPerLoad });
+    });
+    
+    // Set up event listener for theme selector
+    document.getElementById('theme-selector').addEventListener('change', (e) => {
+      const theme = e.target.value;
+      if (theme) {
+        table.setTheme(theme);
+      } else {
+        // Reset to default theme
+        document.querySelectorAll('link[id^="filter-table-theme-"]').forEach(link => {
+          link.remove();
+        });
+      }
+    });
+    
+    // Register event listeners
+    table.on('pageChange', (event) => {
+      console.log('Page changed:', event);
+    });
+    
+    table.on('pageSizeChange', (event) => {
+      console.log('Page size changed:', event);
+    });
+    
+    table.on('loadMore', (event) => {
+      console.log('Loaded more items:', event);
+    });
+  </script>
+</body>
+</html>

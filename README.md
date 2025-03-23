@@ -32,6 +32,10 @@ A highly customizable table library with advanced filtering capabilities for web
 - Filter suggestions
 - Progressive disclosure interface
 - Filter visualization
+- Data display options:
+  - Default (all data)
+  - Pagination with customizable page size
+  - Endless scrolling for large datasets
 - Interactive links:
   - Row-level links for navigation to detail pages
   - Column-specific links for related resources
@@ -103,6 +107,60 @@ const savedFilter = table.saveCurrentFilters('my-favorite-view');
 
 // Apply saved filters later
 table.applyFilters(savedFilter);
+```
+
+## Pagination and Endless Scrolling
+
+```javascript
+// Import the library
+import FilterTable from 'filter-table';
+
+// Initialize the table with pagination
+const table = new FilterTable('#table-container', {
+  data: data,
+  columns: columns,
+  pagination: {
+    enabled: true,
+    pageSize: 10,
+    currentPage: 1,
+    pageSizeOptions: [10, 25, 50, 100]
+  }
+});
+
+// Or initialize with endless scrolling
+const tableWithEndlessScrolling = new FilterTable('#table-container-2', {
+  data: data,
+  columns: columns,
+  endlessScrolling: {
+    enabled: true,
+    itemsPerLoad: 20,
+    loadMoreThreshold: 200,
+    initialItems: 20
+  }
+});
+
+// Change display mode after initialization
+table.setDisplayMode('pagination', { pageSize: 25 });
+table.setDisplayMode('endlessScrolling', { itemsPerLoad: 30 });
+table.setDisplayMode('default'); // Show all data
+
+// Pagination controls
+table.goToPage(3); // Go to page 3
+table.changePageSize(50); // Change page size to 50 rows
+
+// Listen for pagination events
+table.on('pageChange', (event) => {
+  console.log(`Page changed to ${event.currentPage} of ${event.totalPages}`);
+});
+
+table.on('pageSizeChange', (event) => {
+  console.log(`Page size changed to ${event.pageSize}`);
+});
+
+// Listen for endless scrolling events
+table.on('loadMore', (event) => {
+  console.log(`Loaded ${event.loadedItems} of ${event.totalItems} items`);
+});
 ```
 
 ## Currency Formatting
@@ -226,7 +284,14 @@ For full documentation, see the [docs](./docs) directory or visit our [documenta
 
 ## Examples
 
-Check out the [examples](./examples) directory for more usage examples.
+Check out the [examples](./examples) directory for more usage examples:
+
+- [Basic Example](./examples/basic-example.html)
+- [Advanced Example](./examples/advanced-example.html)
+- [Currency Example](./examples/currency-example.html)
+- [Links Example](./examples/links-example.html)
+- [Styling Example](./examples/styling-example.html)
+- [Pagination Example](./examples/pagination-example.html)
 
 ## License
 
