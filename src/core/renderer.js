@@ -752,9 +752,11 @@ class Renderer {
    * @returns {HTMLElement} The pagination button
    */
   _createPaginationButton(text, page, disabled = false, active = false) {
+    console.log(`Creating pagination button: text=${text}, page=${page}, disabled=${disabled}, active=${active}`);
+    
     const button = createDomElement('button', {
       class: `pagination-button${active ? ' active' : ''}`,
-      disabled: disabled ? 'disabled' : null,
+      ...(disabled ? { disabled: true } : {}),
       'data-page': page
     });
     
@@ -762,7 +764,8 @@ class Renderer {
     
     // Add event listener for page change
     if (!disabled && !active) {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', (event) => {
+        console.log(`Pagination button clicked: page=${page}`);
         this.table.goToPage(page);
       });
     }
@@ -810,15 +813,13 @@ class Renderer {
     const { loadedItems } = this.table.endlessScrollingOptions;
     const totalItems = this.table.filteredData.length;
     
-    // Update loading text
-    text.textContent = `Showing ${loadedItems} of ${totalItems} items`;
-    
-    // Show/hide spinner based on whether all items are loaded
+    // Completely hide the loading indicator when all items are loaded
     if (loadedItems >= totalItems) {
-      spinner.style.display = 'none';
-      text.textContent = `All ${totalItems} items loaded`;
+      indicator.style.display = 'none';
     } else {
+      indicator.style.display = 'flex';
       spinner.style.display = 'inline-block';
+      text.textContent = `Showing ${loadedItems} of ${totalItems} items`;
     }
   }
   
