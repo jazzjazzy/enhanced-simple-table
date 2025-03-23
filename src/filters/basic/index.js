@@ -279,44 +279,50 @@ export function boolean(value, params, row) {
     return false;
   }
   
-  // Convert cell value to boolean
-  let boolValue = value;
-  if (typeof boolValue === 'string') {
-    const lowerValue = boolValue.toLowerCase();
-    if (lowerValue === 'true' || lowerValue === 'yes' || lowerValue === '1') {
-      boolValue = true;
-    } else if (lowerValue === 'false' || lowerValue === 'no' || lowerValue === '0') {
-      boolValue = false;
+  // First, determine what we're looking for (true or false)
+  let targetBoolean;
+  
+  // Convert filter value to boolean
+  if (typeof params.value === 'string') {
+    const lowerParamValue = params.value.toLowerCase();
+    if (lowerParamValue === 'true' || lowerParamValue === 'yes' || lowerParamValue === '1') {
+      targetBoolean = true;
+    } else if (lowerParamValue === 'false' || lowerParamValue === 'no' || lowerParamValue === '0') {
+      targetBoolean = false;
+    } else {
+      // If it's not a recognized boolean string, use the value as is
+      targetBoolean = params.value;
     }
-  } else if (typeof boolValue === 'number') {
-    boolValue = boolValue !== 0;
+  } else if (typeof params.value === 'number') {
+    targetBoolean = params.value !== 0;
+  } else {
+    // If it's already a boolean or other type, use it directly
+    targetBoolean = params.value;
   }
   
-  // Get filter value from params
-  let paramValue = params.value;
+  // Convert cell value to boolean if needed
+  let cellBoolean = value;
+  if (typeof cellBoolean === 'string') {
+    const lowerValue = cellBoolean.toLowerCase();
+    if (lowerValue === 'true' || lowerValue === 'yes' || lowerValue === '1') {
+      cellBoolean = true;
+    } else if (lowerValue === 'false' || lowerValue === 'no' || lowerValue === '0') {
+      cellBoolean = false;
+    }
+  } else if (typeof cellBoolean === 'number') {
+    cellBoolean = cellBoolean !== 0;
+  }
   
   // Debug logging
   console.log('Boolean filter:', { 
     cellValue: value, 
-    boolValue: boolValue, 
-    paramValue: paramValue, 
-    params: params 
+    cellBoolean: cellBoolean, 
+    filterValue: params.value,
+    targetBoolean: targetBoolean
   });
   
-  // Convert filter value to boolean
-  if (typeof paramValue === 'string') {
-    const lowerParamValue = paramValue.toLowerCase();
-    if (lowerParamValue === 'true' || lowerParamValue === 'yes' || lowerParamValue === '1') {
-      paramValue = true;
-    } else if (lowerParamValue === 'false' || lowerParamValue === 'no' || lowerParamValue === '0') {
-      paramValue = false;
-    }
-  } else if (typeof paramValue === 'number') {
-    paramValue = paramValue !== 0;
-  }
-  
-  // Use loose equality for boolean comparison
-  return boolValue == paramValue;
+  // Compare the boolean values
+  return cellBoolean === targetBoolean;
 }
 
 /**
