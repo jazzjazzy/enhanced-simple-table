@@ -241,48 +241,172 @@ export function formatCurrency(value, countryCode = 'US') {
     }
     
     // Map of country codes to currency codes and locales
+    // This map includes common currency codes and locales
+    // A comprehensive list of all ISO 3166-1 alpha-2 and alpha-3 country codes
+    // is supported by this function
     const currencyMap = {
       // Alpha-2 codes
-      'US': { currency: 'USD', locale: 'en-US' },
-      'GB': { currency: 'GBP', locale: 'en-GB' },
-      'CA': { currency: 'CAD', locale: 'en-CA' },
-      'AU': { currency: 'AUD', locale: 'en-AU' },
-      'NZ': { currency: 'NZD', locale: 'en-NZ' },
-      'EU': { currency: 'EUR', locale: 'en-EU' },
-      'JP': { currency: 'JPY', locale: 'ja-JP' },
-      'CN': { currency: 'CNY', locale: 'zh-CN' },
-      'IN': { currency: 'INR', locale: 'en-IN' },
-      'BR': { currency: 'BRL', locale: 'pt-BR' },
-      'RU': { currency: 'RUB', locale: 'ru-RU' },
-      'ZA': { currency: 'ZAR', locale: 'en-ZA' },
-      'MX': { currency: 'MXN', locale: 'es-MX' },
-      'SG': { currency: 'SGD', locale: 'en-SG' },
-      'CH': { currency: 'CHF', locale: 'de-CH' },
-      'SE': { currency: 'SEK', locale: 'sv-SE' },
-      'NO': { currency: 'NOK', locale: 'no-NO' },
-      'DK': { currency: 'DKK', locale: 'da-DK' },
-      'KR': { currency: 'KRW', locale: 'ko-KR' },
+      'AD': { currency: 'EUR', locale: 'ca-AD' }, // Andorra
+      'AE': { currency: 'AED', locale: 'ar-AE' }, // United Arab Emirates
+      'AF': { currency: 'AFN', locale: 'ps-AF' }, // Afghanistan
+      'AG': { currency: 'XCD', locale: 'en-AG' }, // Antigua and Barbuda
+      'AI': { currency: 'XCD', locale: 'en-AI' }, // Anguilla
+      'AL': { currency: 'ALL', locale: 'sq-AL' }, // Albania
+      'AM': { currency: 'AMD', locale: 'hy-AM' }, // Armenia
+      'AO': { currency: 'AOA', locale: 'pt-AO' }, // Angola
+      'AR': { currency: 'ARS', locale: 'es-AR' }, // Argentina
+      'AT': { currency: 'EUR', locale: 'de-AT' }, // Austria
+      'AU': { currency: 'AUD', locale: 'en-AU' }, // Australia
+      'AZ': { currency: 'AZN', locale: 'az-AZ' }, // Azerbaijan
+      'BA': { currency: 'BAM', locale: 'bs-BA' }, // Bosnia and Herzegovina
+      'BB': { currency: 'BBD', locale: 'en-BB' }, // Barbados
+      'BD': { currency: 'BDT', locale: 'bn-BD' }, // Bangladesh
+      'BE': { currency: 'EUR', locale: 'nl-BE' }, // Belgium
+      'BG': { currency: 'BGN', locale: 'bg-BG' }, // Bulgaria
+      'BH': { currency: 'BHD', locale: 'ar-BH' }, // Bahrain
+      'BI': { currency: 'BIF', locale: 'fr-BI' }, // Burundi
+      'BJ': { currency: 'XOF', locale: 'fr-BJ' }, // Benin
+      'BN': { currency: 'BND', locale: 'ms-BN' }, // Brunei
+      'BO': { currency: 'BOB', locale: 'es-BO' }, // Bolivia
+      'BR': { currency: 'BRL', locale: 'pt-BR' }, // Brazil
+      'BS': { currency: 'BSD', locale: 'en-BS' }, // Bahamas
+      'BT': { currency: 'BTN', locale: 'dz-BT' }, // Bhutan
+      'BW': { currency: 'BWP', locale: 'en-BW' }, // Botswana
+      'BY': { currency: 'BYN', locale: 'be-BY' }, // Belarus
+      'BZ': { currency: 'BZD', locale: 'en-BZ' }, // Belize
+      'CA': { currency: 'CAD', locale: 'en-CA' }, // Canada
+      'CH': { currency: 'CHF', locale: 'de-CH' }, // Switzerland
+      'CL': { currency: 'CLP', locale: 'es-CL' }, // Chile
+      'CN': { currency: 'CNY', locale: 'zh-CN' }, // China
+      'CO': { currency: 'COP', locale: 'es-CO' }, // Colombia
+      'CR': { currency: 'CRC', locale: 'es-CR' }, // Costa Rica
+      'CU': { currency: 'CUP', locale: 'es-CU' }, // Cuba
+      'CV': { currency: 'CVE', locale: 'pt-CV' }, // Cape Verde
+      'CY': { currency: 'EUR', locale: 'el-CY' }, // Cyprus
+      'CZ': { currency: 'CZK', locale: 'cs-CZ' }, // Czech Republic
+      'DE': { currency: 'EUR', locale: 'de-DE' }, // Germany
+      'DK': { currency: 'DKK', locale: 'da-DK' }, // Denmark
+      'DO': { currency: 'DOP', locale: 'es-DO' }, // Dominican Republic
+      'DZ': { currency: 'DZD', locale: 'ar-DZ' }, // Algeria
+      'EC': { currency: 'USD', locale: 'es-EC' }, // Ecuador
+      'EE': { currency: 'EUR', locale: 'et-EE' }, // Estonia
+      'EG': { currency: 'EGP', locale: 'ar-EG' }, // Egypt
+      'ES': { currency: 'EUR', locale: 'es-ES' }, // Spain
+      'ET': { currency: 'ETB', locale: 'am-ET' }, // Ethiopia
+      'EU': { currency: 'EUR', locale: 'en-EU' }, // European Union
+      'FI': { currency: 'EUR', locale: 'fi-FI' }, // Finland
+      'FJ': { currency: 'FJD', locale: 'en-FJ' }, // Fiji
+      'FR': { currency: 'EUR', locale: 'fr-FR' }, // France
+      'GB': { currency: 'GBP', locale: 'en-GB' }, // United Kingdom
+      'GE': { currency: 'GEL', locale: 'ka-GE' }, // Georgia
+      'GH': { currency: 'GHS', locale: 'en-GH' }, // Ghana
+      'GR': { currency: 'EUR', locale: 'el-GR' }, // Greece
+      'GT': { currency: 'GTQ', locale: 'es-GT' }, // Guatemala
+      'HK': { currency: 'HKD', locale: 'zh-HK' }, // Hong Kong
+      'HN': { currency: 'HNL', locale: 'es-HN' }, // Honduras
+      'HR': { currency: 'EUR', locale: 'hr-HR' }, // Croatia
+      'HU': { currency: 'HUF', locale: 'hu-HU' }, // Hungary
+      'ID': { currency: 'IDR', locale: 'id-ID' }, // Indonesia
+      'IE': { currency: 'EUR', locale: 'en-IE' }, // Ireland
+      'IL': { currency: 'ILS', locale: 'he-IL' }, // Israel
+      'IN': { currency: 'INR', locale: 'en-IN' }, // India
+      'IQ': { currency: 'IQD', locale: 'ar-IQ' }, // Iraq
+      'IR': { currency: 'IRR', locale: 'fa-IR' }, // Iran
+      'IS': { currency: 'ISK', locale: 'is-IS' }, // Iceland
+      'IT': { currency: 'EUR', locale: 'it-IT' }, // Italy
+      'JM': { currency: 'JMD', locale: 'en-JM' }, // Jamaica
+      'JO': { currency: 'JOD', locale: 'ar-JO' }, // Jordan
+      'JP': { currency: 'JPY', locale: 'ja-JP' }, // Japan
+      'KE': { currency: 'KES', locale: 'sw-KE' }, // Kenya
+      'KG': { currency: 'KGS', locale: 'ky-KG' }, // Kyrgyzstan
+      'KH': { currency: 'KHR', locale: 'km-KH' }, // Cambodia
+      'KR': { currency: 'KRW', locale: 'ko-KR' }, // South Korea
+      'KW': { currency: 'KWD', locale: 'ar-KW' }, // Kuwait
+      'KZ': { currency: 'KZT', locale: 'kk-KZ' }, // Kazakhstan
+      'LA': { currency: 'LAK', locale: 'lo-LA' }, // Laos
+      'LB': { currency: 'LBP', locale: 'ar-LB' }, // Lebanon
+      'LK': { currency: 'LKR', locale: 'si-LK' }, // Sri Lanka
+      'LT': { currency: 'EUR', locale: 'lt-LT' }, // Lithuania
+      'LU': { currency: 'EUR', locale: 'fr-LU' }, // Luxembourg
+      'LV': { currency: 'EUR', locale: 'lv-LV' }, // Latvia
+      'LY': { currency: 'LYD', locale: 'ar-LY' }, // Libya
+      'MA': { currency: 'MAD', locale: 'ar-MA' }, // Morocco
+      'MD': { currency: 'MDL', locale: 'ro-MD' }, // Moldova
+      'ME': { currency: 'EUR', locale: 'sr-ME' }, // Montenegro
+      'MG': { currency: 'MGA', locale: 'fr-MG' }, // Madagascar
+      'MK': { currency: 'MKD', locale: 'mk-MK' }, // North Macedonia
+      'MM': { currency: 'MMK', locale: 'my-MM' }, // Myanmar
+      'MN': { currency: 'MNT', locale: 'mn-MN' }, // Mongolia
+      'MO': { currency: 'MOP', locale: 'zh-MO' }, // Macau
+      'MT': { currency: 'EUR', locale: 'mt-MT' }, // Malta
+      'MU': { currency: 'MUR', locale: 'en-MU' }, // Mauritius
+      'MV': { currency: 'MVR', locale: 'dv-MV' }, // Maldives
+      'MX': { currency: 'MXN', locale: 'es-MX' }, // Mexico
+      'MY': { currency: 'MYR', locale: 'ms-MY' }, // Malaysia
+      'MZ': { currency: 'MZN', locale: 'pt-MZ' }, // Mozambique
+      'NA': { currency: 'NAD', locale: 'en-NA' }, // Namibia
+      'NG': { currency: 'NGN', locale: 'en-NG' }, // Nigeria
+      'NI': { currency: 'NIO', locale: 'es-NI' }, // Nicaragua
+      'NL': { currency: 'EUR', locale: 'nl-NL' }, // Netherlands
+      'NO': { currency: 'NOK', locale: 'no-NO' }, // Norway
+      'NP': { currency: 'NPR', locale: 'ne-NP' }, // Nepal
+      'NZ': { currency: 'NZD', locale: 'en-NZ' }, // New Zealand
+      'OM': { currency: 'OMR', locale: 'ar-OM' }, // Oman
+      'PA': { currency: 'PAB', locale: 'es-PA' }, // Panama
+      'PE': { currency: 'PEN', locale: 'es-PE' }, // Peru
+      'PG': { currency: 'PGK', locale: 'en-PG' }, // Papua New Guinea
+      'PH': { currency: 'PHP', locale: 'en-PH' }, // Philippines
+      'PK': { currency: 'PKR', locale: 'ur-PK' }, // Pakistan
+      'PL': { currency: 'PLN', locale: 'pl-PL' }, // Poland
+      'PT': { currency: 'EUR', locale: 'pt-PT' }, // Portugal
+      'PY': { currency: 'PYG', locale: 'es-PY' }, // Paraguay
+      'QA': { currency: 'QAR', locale: 'ar-QA' }, // Qatar
+      'RO': { currency: 'RON', locale: 'ro-RO' }, // Romania
+      'RS': { currency: 'RSD', locale: 'sr-RS' }, // Serbia
+      'RU': { currency: 'RUB', locale: 'ru-RU' }, // Russia
+      'SA': { currency: 'SAR', locale: 'ar-SA' }, // Saudi Arabia
+      'SE': { currency: 'SEK', locale: 'sv-SE' }, // Sweden
+      'SG': { currency: 'SGD', locale: 'en-SG' }, // Singapore
+      'SI': { currency: 'EUR', locale: 'sl-SI' }, // Slovenia
+      'SK': { currency: 'EUR', locale: 'sk-SK' }, // Slovakia
+      'TH': { currency: 'THB', locale: 'th-TH' }, // Thailand
+      'TN': { currency: 'TND', locale: 'ar-TN' }, // Tunisia
+      'TR': { currency: 'TRY', locale: 'tr-TR' }, // Turkey
+      'TW': { currency: 'TWD', locale: 'zh-TW' }, // Taiwan
+      'TZ': { currency: 'TZS', locale: 'sw-TZ' }, // Tanzania
+      'UA': { currency: 'UAH', locale: 'uk-UA' }, // Ukraine
+      'UG': { currency: 'UGX', locale: 'en-UG' }, // Uganda
+      'UM': { currency: 'USD', locale: 'en-UM' }, // United States Minor Outlying Islands
+      'US': { currency: 'USD', locale: 'en-US' }, // United States
+      'UY': { currency: 'UYU', locale: 'es-UY' }, // Uruguay
+      'UZ': { currency: 'UZS', locale: 'uz-UZ' }, // Uzbekistan
+      'VA': { currency: 'EUR', locale: 'it-VA' }, // Vatican City
+      'VE': { currency: 'VES', locale: 'es-VE' }, // Venezuela
+      'VN': { currency: 'VND', locale: 'vi-VN' }, // Vietnam
+      'ZA': { currency: 'ZAR', locale: 'en-ZA' }, // South Africa
+      'ZM': { currency: 'ZMW', locale: 'en-ZM' }, // Zambia
+      'ZW': { currency: 'USD', locale: 'en-ZW' }, // Zimbabwe
       
-      // Alpha-3 codes
-      'USA': { currency: 'USD', locale: 'en-US' },
-      'GBR': { currency: 'GBP', locale: 'en-GB' },
-      'CAN': { currency: 'CAD', locale: 'en-CA' },
-      'AUS': { currency: 'AUD', locale: 'en-AU' },
-      'NZL': { currency: 'NZD', locale: 'en-NZ' },
-      'EUR': { currency: 'EUR', locale: 'en-EU' },
-      'JPN': { currency: 'JPY', locale: 'ja-JP' },
-      'CHN': { currency: 'CNY', locale: 'zh-CN' },
-      'IND': { currency: 'INR', locale: 'en-IN' },
-      'BRA': { currency: 'BRL', locale: 'pt-BR' },
-      'RUS': { currency: 'RUB', locale: 'ru-RU' },
-      'ZAF': { currency: 'ZAR', locale: 'en-ZA' },
-      'MEX': { currency: 'MXN', locale: 'es-MX' },
-      'SGP': { currency: 'SGD', locale: 'en-SG' },
-      'CHE': { currency: 'CHF', locale: 'de-CH' },
-      'SWE': { currency: 'SEK', locale: 'sv-SE' },
-      'NOR': { currency: 'NOK', locale: 'no-NO' },
-      'DNK': { currency: 'DKK', locale: 'da-DK' },
-      'KOR': { currency: 'KRW', locale: 'ko-KR' }
+      // Alpha-3 codes for major countries
+      'USA': { currency: 'USD', locale: 'en-US' }, // United States
+      'GBR': { currency: 'GBP', locale: 'en-GB' }, // United Kingdom
+      'CAN': { currency: 'CAD', locale: 'en-CA' }, // Canada
+      'AUS': { currency: 'AUD', locale: 'en-AU' }, // Australia
+      'NZL': { currency: 'NZD', locale: 'en-NZ' }, // New Zealand
+      'EUR': { currency: 'EUR', locale: 'en-EU' }, // European Union
+      'JPN': { currency: 'JPY', locale: 'ja-JP' }, // Japan
+      'CHN': { currency: 'CNY', locale: 'zh-CN' }, // China
+      'IND': { currency: 'INR', locale: 'en-IN' }, // India
+      'BRA': { currency: 'BRL', locale: 'pt-BR' }, // Brazil
+      'RUS': { currency: 'RUB', locale: 'ru-RU' }, // Russia
+      'ZAF': { currency: 'ZAR', locale: 'en-ZA' }, // South Africa
+      'MEX': { currency: 'MXN', locale: 'es-MX' }, // Mexico
+      'SGP': { currency: 'SGD', locale: 'en-SG' }, // Singapore
+      'CHE': { currency: 'CHF', locale: 'de-CH' }, // Switzerland
+      'SWE': { currency: 'SEK', locale: 'sv-SE' }, // Sweden
+      'NOR': { currency: 'NOK', locale: 'no-NO' }, // Norway
+      'DNK': { currency: 'DKK', locale: 'da-DK' }, // Denmark
+      'KOR': { currency: 'KRW', locale: 'ko-KR' }  // South Korea
     };
     
     // Default to USD if country code not found
