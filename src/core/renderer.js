@@ -61,8 +61,16 @@ class Renderer {
     // Create link element for theme
     const themeLink = document.createElement('link');
     themeLink.rel = 'stylesheet';
-    themeLink.href = this.stylingOptions.themesPath || `./src/styles/themes/${themeName}.css`;
+    
+    // Determine the correct path to the theme CSS file
+    // If we're in an example page, we need to go up one directory level
+    const isExample = window.location.pathname.includes('/examples/');
+    const themePath = isExample ? `../src/styles/themes/${themeName}.css` : `./src/styles/themes/${themeName}.css`;
+    
+    themeLink.href = this.stylingOptions.themesPath || themePath;
     themeLink.id = `filter-table-theme-${themeName}`;
+    
+    console.log(`Loading theme: ${themeName} from ${themeLink.href}`);
     
     // Add to document head
     document.head.appendChild(themeLink);
