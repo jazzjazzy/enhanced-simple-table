@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FilterTable - Pagination and Endless Scrolling Example</title>
+  <title>Enhanced Simple Table - Pagination and Endless Scrolling Example</title>
   <!-- Import base styles -->
   <link rel="stylesheet" href="../src/styles/base.css">
   <!-- Import pagination styles -->
@@ -84,9 +84,9 @@
   </style>
 </head>
 <body>
-  <h1>FilterTable - Pagination and Endless Scrolling Example</h1>
+  <h1>Enhanced Simple Table - Pagination and Endless Scrolling Example</h1>
   <p class="description">
-    This example demonstrates the pagination and endless scrolling features of FilterTable.
+    This example demonstrates the pagination and endless scrolling features of Enhanced Simple Table.
     You can switch between different display modes and customize the settings.
   </p>
   
@@ -135,9 +135,9 @@
   
   <div class="table-container" id="table-container"></div>
   
-  <!-- Import the FilterTable library -->
+  <!-- Import the Enhanced Simple Table library -->
   <script type="module">
-    import FilterTable from '../src/index.js';
+    import EnhancedSimpleTable from '../src/index.js';
     
     // Generate sample data
     function generateData(count = 100) {
@@ -170,7 +170,7 @@
     ];
     
     // Initialize the table
-    const table = new FilterTable('#table-container', {
+    const table = new EnhancedSimpleTable('#table-container', {
       data: generateData(200),
       columns: columns
     });
@@ -215,7 +215,7 @@
         table.setTheme(theme);
       } else {
         // Reset to default theme
-        document.querySelectorAll('link[id^="filter-table-theme-"]').forEach(link => {
+        document.querySelectorAll('link[id^="enhanced-simple-table-theme-"]').forEach(link => {
           link.remove();
         });
       }
