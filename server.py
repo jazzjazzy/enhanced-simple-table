@@ -38,6 +38,7 @@ Handler.extensions_map.update({
 # Check if server is already running on the specified port
 if is_port_in_use(PORT):
     print(f"Server is already running at http://localhost:{PORT}")
+    sys.exit(0)  # Exit with success code if server is already running
 else:
     # Create the server
     with socketserver.TCPServer(("", PORT), Handler) as httpd:

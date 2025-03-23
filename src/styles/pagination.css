@@ -107,6 +107,18 @@
   font-size: 14px;
 }
 
+/* Style for when all items are loaded */
+.filter-table-loading.all-loaded {
+  background-color: transparent;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
+.filter-table-loading.all-loaded .loading-text {
+  font-style: italic;
+  color: #888;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
