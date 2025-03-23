@@ -1,4 +1,4 @@
-# FilterTable
+# Enhanced Simple Table
 
 A highly customizable table library with advanced filtering capabilities for web applications.
 
@@ -59,7 +59,7 @@ npm install filter-table
 
 <script>
   // Import the library
-  import FilterTable from 'filter-table';
+  import EnhancedSimpleTable from 'filter-table';
   
   // Sample data
   const data = [
@@ -69,7 +69,7 @@ npm install filter-table
   ];
   
   // Initialize the table
-  const table = new FilterTable('#table-container', {
+  const table = new EnhancedSimpleTable('#table-container', {
     data: data,
     columns: [
       { field: 'id', title: 'ID', filterable: true },
@@ -113,10 +113,10 @@ table.applyFilters(savedFilter);
 
 ```javascript
 // Import the library
-import FilterTable from 'filter-table';
+import EnhancedSimpleTable from 'filter-table';
 
 // Initialize the table with pagination
-const table = new FilterTable('#table-container', {
+const table = new EnhancedSimpleTable('#table-container', {
   data: data,
   columns: columns,
   pagination: {
@@ -128,7 +128,7 @@ const table = new FilterTable('#table-container', {
 });
 
 // Or initialize with endless scrolling
-const tableWithEndlessScrolling = new FilterTable('#table-container-2', {
+const tableWithEndlessScrolling = new EnhancedSimpleTable('#table-container-2', {
   data: data,
   columns: columns,
   endlessScrolling: {
@@ -167,7 +167,7 @@ table.on('loadMore', (event) => {
 
 ```javascript
 // Import the library and formatCurrency function
-import FilterTable from 'filter-table';
+import EnhancedSimpleTable from 'filter-table';
 import { formatCurrency } from 'filter-table/utils/data-types.js';
 
 // Sample data with country codes
@@ -178,7 +178,7 @@ const data = [
 ];
 
 // Initialize the table with currency formatting
-const table = new FilterTable('#table-container', {
+const table = new EnhancedSimpleTable('#table-container', {
   data: data,
   columns: [
     { field: 'id', title: 'ID' },
@@ -202,7 +202,7 @@ For detailed currency formatting documentation, see the [Currency Formatting Gui
 
 ```javascript
 // Import the library
-import FilterTable from 'filter-table';
+import EnhancedSimpleTable from 'filter-table';
 
 // Sample data
 const data = [
@@ -212,7 +212,7 @@ const data = [
 ];
 
 // Initialize the table with links
-const table = new FilterTable('#table-container', {
+const table = new EnhancedSimpleTable('#table-container', {
   data: data,
   // Row-level link - makes the entire row clickable
   rowLink: 'user.html?id={id}',
@@ -230,7 +230,7 @@ const table = new FilterTable('#table-container', {
 });
 
 // Dynamic links using functions
-const tableWithDynamicLinks = new FilterTable('#table-container-2', {
+const tableWithDynamicLinks = new EnhancedSimpleTable('#table-container-2', {
   data: data,
   // Dynamic row-level link function
   rowLink: (row) => `user.html?id=${row.id}&name=${encodeURIComponent(row.name)}`,
@@ -252,7 +252,7 @@ For detailed links documentation, see the [Links Guide](./docs/links-guide.md).
 
 ```javascript
 // Initialize with a theme
-const table = new FilterTable('#table-container', {
+const table = new EnhancedSimpleTable('#table-container', {
   data: data,
   columns: columns,
   styling: {
