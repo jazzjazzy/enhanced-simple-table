@@ -1,10 +1,10 @@
 {
-  "name": "filter-table",
+  "name": "@jazzjazzy/enhanced-simple-table",
   "version": "0.1.0",
   "description": "A highly customizable table library with advanced filtering capabilities",
-  "main": "dist/filter-table.js",
-  "module": "dist/filter-table.esm.js",
-  "browser": "dist/filter-table.min.js",
+  "main": "dist/enhanced-simple-table.js",
+  "module": "dist/enhanced-simple-table.esm.js",
+  "browser": "dist/enhanced-simple-table.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "echo \"Build script would go here\""
@@ -26,7 +26,5 @@
   "bugs": {
     "url": "https://github.com/jazzjazzy/enhanced-simple-table/issues"
   },
-  "homepage": "https://github.com/jazzjazzy/enhanced-simple-table#readme",
-  "devDependencies": {},
-  "dependencies": {}
+  "homepage": "https://github.com/jazzjazzy/enhanced-simple-table#readme"
 }
