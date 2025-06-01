@@ -1,6 +1,6 @@
 {
   "name": "@jazzjazzy/enhanced-simple-table",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A highly customizable table library with advanced filtering capabilities",
   "main": "dist/enhanced-simple-table.js",
   "module": "dist/enhanced-simple-table.esm.js",

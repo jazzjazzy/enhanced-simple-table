@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   build: {
     lib: {
-      entry: 'src/index.js', // Change if your entry file is different
+      entry: 'src/index.js',
       name: 'EnhancedSimpleTable',
       formats: ['es', 'cjs', 'iife'],
       fileName: (format) => {
@@ -17,7 +17,8 @@ export default defineConfig({
     rollupOptions: {
       external: [],
       output: {
-        globals: {}
+        globals: {},
+        exports: 'named' // <--- Add this line to silence the warning
       }
     }
   }
